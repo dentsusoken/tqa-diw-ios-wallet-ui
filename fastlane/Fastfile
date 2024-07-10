@@ -1,0 +1,221 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+require "date"
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Run test coverage"
+  lane :coverage do
+    FileUtils.remove_dir "../xcov_output", true
+    tests
+    xcov(
+      project: ENV["APP_PROJECT"],
+      scheme: ENV["APP_SCHEME"],
+      output_directory: "xcov_output",
+      ignore_file_path: "fastlane/.xcovignore",
+      exclude_targets: ENV["XCOV_EXCLUDE_TARGETS"],
+    )
+  end
+
+  desc "Run tests"
+  lane :tests do
+    scan(scheme: ENV["APP_SCHEME"])
+  end
+
+  desc "Build EUDI Wallet Demo version and upload it to AppCenter"
+  lane :deploy do
+    ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "600"
+
+    git_pull
+
+    appcenter_build_number = latest_appcenter_release(
+      appName: ENV["APP_CENTER_APP_NAME"],
+      appToken: ENV["APP_CENTER_APP_TOKEN"],
+      ownerName: ENV["APP_CENTER_ACCOUNT"],
+    )
+
+    buildNumber = build_number(versionBuildNumber: appcenter_build_number)
+
+    calver(
+      target: ENV["APP_TARGET"],
+      configName: ENV["APP_VERSION_CONFIG"],
+      buildType: ENV["APP_BUILD_TYPE"],
+      buildCode: buildNumber,
+    )
+
+    versionName = get_version_number(
+      target: ENV["APP_TARGET"],
+      configuration: ENV["APP_VERSION_CONFIG"],
+    )
+
+    update_build_number(
+      target: ENV["APP_TARGET"],
+      number: buildNumber,
+    )
+
+    tagVersion = tag_name(
+      buildName: versionName,
+      buildNumber: buildNumber,
+      brand: ENV["APP_TAG"],
+      buildType: ENV["APP_BUILD_TYPE"],
+    )
+
+    build_app(
+      scheme: ENV["APP_SCHEME"],
+      include_bitcode: true,
+      export_method: "ad-hoc",
+      export_options: {
+        provisioningProfiles: {
+          ENV["APP_BUNDLE_ID"] => ENV["APP_PROVISION_PROFILE"],
+        },
+      },
+    )
+
+    upload_to_appcenter(
+      appName: ENV["APP_CENTER_APP_NAME"],
+      path: ENV["APP_IPA_PATH"],
+      appToken: ENV["APP_CENTER_APP_TOKEN"],
+      ownerName: ENV["APP_CENTER_ACCOUNT"],
+      groups: ENV["APP_CENTER_GROUPS"],
+    )
+
+    clean_build_artifacts
+    resetVersioning(
+      target: ENV["APP_TARGET"],
+      configName: ENV["APP_VERSION_CONFIG"],
+      buildType: ENV["APP_BUILD_TYPE"],
+    )
+
+    add_git_tag(
+      tag: tagVersion,
+    )
+
+    push_git_tags
+  end
+
+  desc "Reset version and build number to default"
+  lane :resetVersioning do |values|
+    target = values[:target]
+    configName = values[:configName]
+    buildType = values[:buildType]
+    update_build_number(
+      target: target,
+      number: 1,
+    )
+    update_version(
+      target: target,
+      configName: configName,
+      version: "yyyy.mm.v-#{buildType}",
+    )
+  end
+
+  desc "Set build number"
+  lane :update_build_number do |values|
+    target = values[:target]
+    number = values[:number]
+    increment_build_number_in_plist(
+      target: target,
+      build_number: number.to_s,
+    )
+    increment_build_number_in_xcodeproj(
+      target: target,
+      build_number: number.to_s,
+    )
+  end
+
+  desc "Set version"
+  lane :update_version do |values|
+    target = values[:target]
+    configName = values[:configName]
+    version = values[:version]
+    increment_version_number_in_xcodeproj(
+      target: target,
+      version_number: version,
+      build_configuration_name: configName,
+    )
+  end
+
+  desc "Build Number"
+  lane :build_number do |values|
+    number = values[:versionBuildNumber].to_i + 1
+    puts "Build Number: #{number}"
+    number
+  end
+
+  desc "Build Tag Name"
+  lane :tag_name do |values|
+    buildName = values[:buildName]
+    buildNumber = values[:buildNumber]
+    brand = values[:brand]
+    buildType = values[:buildType]
+    name = "#{brand}/#{buildType}_#{buildName}_Build=#{buildNumber}"
+    puts "Tag Name: #{name}"
+    name
+  end
+
+  desc "Upload to AppCenter"
+  lane :upload_to_appcenter do |values|
+    appName = values[:appName]
+    path = values[:path]
+    appToken = values[:appToken]
+    ownerName = values[:ownerName]
+    groups = values[:groups]
+    appcenter_upload(
+      api_token: appToken,
+      owner_name: ownerName,
+      app_name: appName,
+      file: path,
+      notify_testers: true,
+      destinations: groups,
+    )
+  end
+
+  desc "Get Release version From AppCenter"
+  lane :latest_appcenter_release do |values|
+    appName = values[:appName]
+    appToken = values[:appToken]
+    ownerName = values[:ownerName]
+    version = "1"
+    begin
+      version = appcenter_fetch_version_number(
+        api_token: appToken,
+        owner_name: ownerName,
+        app_name: appName,
+      )["build_number"]
+    rescue => ex
+      puts ex
+    end
+    puts "AppCenter Version: #{version}"
+    version
+  end
+
+  desc "Build Version"
+  lane :calver do |values|
+    target = values[:target]
+    configName = values[:configName]
+    buildType = values[:buildType]
+    buildCode = values[:buildCode]
+    date = DateTime.now
+    version = "#{date.strftime("%Y.%m")}.#{buildCode}-#{buildType}"
+    puts "Generated Calver: #{version}"
+    update_version(
+      target: target,
+      configName: configName,
+      version: version,
+    )
+  end
+end

@@ -1,0 +1,98 @@
+{
+  "configurations" : [
+    {
+      "id" : "D081D3EF-C7D4-419F-84E7-75A782F84C42",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:EUDI Reference App.xcodeproj",
+      "identifier" : "F14907B72ABAF54B00DDFE56",
+      "name" : "EUDI Reference App"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/feature-login",
+        "identifier" : "feature-login-tests",
+        "name" : "feature-login-tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/feature-dashboard",
+        "identifier" : "feature-dashboard-tests",
+        "name" : "feature-dashboard-tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/feature-common",
+        "identifier" : "feature-common-tests",
+        "name" : "feature-common-tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/feature-issuance",
+        "identifier" : "feature-issuance-tests",
+        "name" : "feature-issuance-tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/feature-presentation",
+        "identifier" : "feature-presentation-tests",
+        "name" : "feature-presentation-tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/feature-proximity",
+        "identifier" : "feature-proximity-tests",
+        "name" : "feature-proximity-tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/feature-startup",
+        "identifier" : "feature-startup-tests",
+        "name" : "feature-startup-tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/logic-api",
+        "identifier" : "logic-api-tests",
+        "name" : "logic-api-tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/logic-business",
+        "identifier" : "logic-business-tests",
+        "name" : "logic-business-tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/logic-ui",
+        "identifier" : "logic-ui-tests",
+        "name" : "logic-ui-tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/logic-authentication",
+        "identifier" : "logic-authentication-tests",
+        "name" : "logic-authentication-tests"
+      }
+    }
+  ],
+  "version" : 1
+}
