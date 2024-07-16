@@ -777,7 +777,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "SCAN QR"
+            "value" : "QRコード読取"
           }
         }
       }
