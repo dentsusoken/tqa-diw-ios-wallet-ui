@@ -623,7 +623,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Houston we have a problem!"
+            "value" : "問題が発生しました！"
           }
         }
       }
