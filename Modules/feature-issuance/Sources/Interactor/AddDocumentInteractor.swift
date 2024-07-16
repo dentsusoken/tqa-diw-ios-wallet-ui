@@ -44,7 +44,7 @@ final class AddDocumentInteractorImpl: AddDocumentInteractor {
       case .PID:
         item.isEnabled = true
       case .MDL:
-        item.isEnabled = flow == .extraDocument
+        item.isEnabled = true
       case .AGE:
         item.isEnabled = flow == .extraDocument
       case .GENERIC:
