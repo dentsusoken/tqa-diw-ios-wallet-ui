@@ -1561,7 +1561,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Place the QR code within the frame to start scanning"
+            "value" : "QRコードをフレーム内に配置し、スキャンを開始します。"
           }
         }
       }
@@ -1572,7 +1572,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scan QR"
+            "value" : "QRコード読取"
           }
         }
       }
