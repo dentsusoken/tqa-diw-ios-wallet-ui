@@ -29,7 +29,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select a document to add in your EUDI Wallet"
+            "value" : "発行するVCを選択してください"
           }
         }
       }
@@ -40,7 +40,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add document"
+            "value" : "VC発行"
           }
         }
       }
