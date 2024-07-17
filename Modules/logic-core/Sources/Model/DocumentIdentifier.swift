@@ -18,60 +18,59 @@ import logic_resources
 
 public enum DocumentTypeIdentifier: RawRepresentable, Equatable {
 
-  case PID
+//  case PID
   case MDL
-  case AGE
-  case GENERIC(docType: String)
+//  case AGE
+//  case GENERIC(docType: String)
 
   public var localizedTitle: String {
     return switch self {
-    case .PID:
-      LocalizableString.shared.get(with: .pid)
+//    case .PID:
+//      LocalizableString.shared.get(with: .pid)
     case .MDL:
       LocalizableString.shared.get(with: .mdl)
-    case .AGE:
-      LocalizableString.shared.get(with: .ageVerification)
-    case .GENERIC(let docType):
-      LocalizableString.shared.get(with: .dynamic(key: docType))
+//    case .AGE:
+//      LocalizableString.shared.get(with: .ageVerification)
+//    case .GENERIC(let docType):
+//      LocalizableString.shared.get(with: .dynamic(key: docType))
     }
   }
 
   public var rawValue: String {
     return switch self {
-    case .PID:
-      Self.pidDocType
+//    case .PID:
+//      Self.pidDocType
     case .MDL:
       Self.mdlDocType
-    case .AGE:
-      Self.ageDocType
-    case .GENERIC(let docType):
-      docType
+//    case .AGE:
+//      Self.ageDocType
+//    case .GENERIC(let docType):
+//      docType
     }
   }
 
   public var isSupported: Bool {
     return switch self {
-    case .PID, .MDL, .AGE: true
-    case .GENERIC: false
+    case .MDL: true
+//    case .GENERIC: false
     }
   }
 
   public init(rawValue: String) {
     switch rawValue {
-    case Self.pidDocType:
-      self = .PID
-    case Self.mdlDocType:
-      self = .MDL
-    case Self.ageDocType:
-      self = .AGE
+//    case Self.pidDocType:
+//      self = .PID
+//    case Self.mdlDocType:
     default:
-      self = .GENERIC(docType: rawValue)
+      self = .MDL
+//    default:
+//      self = .GENERIC(docType: rawValue)
     }
   }
 }
 
 private extension DocumentTypeIdentifier {
-  static let pidDocType = "eu.europa.ec.eudi.pid.1"
+//  static let pidDocType = "eu.europa.ec.eudi.pid.1"
   static let mdlDocType = "org.iso.18013.5.1.mDL"
-  static let ageDocType = "eu.europa.ec.eudi.pseudonym.age_over_18.1"
+//  static let ageDocType = "eu.europa.ec.eudi.pseudonym.age_over_18.1"
 }

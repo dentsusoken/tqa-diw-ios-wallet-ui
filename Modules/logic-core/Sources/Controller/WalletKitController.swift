@@ -165,7 +165,7 @@ final class WalletKitControllerImpl: WalletKitController {
   }
 
   func fetchMainPidDocument() -> MdocDecodable? {
-    return fetchDocuments(with: DocumentTypeIdentifier.PID)
+    return fetchDocuments(with: DocumentTypeIdentifier.MDL)
       .sorted { $0.createdAt > $1.createdAt }.last
   }
 
@@ -197,26 +197,26 @@ extension WalletKitController {
   // TODO: Mandatory fields should be returned in a generic model
   public func mandatoryFields(for documentType: DocumentTypeIdentifier) -> [String] {
     switch documentType {
-    case .PID:
-      return [
-        "issuance_date",
-        "expiry_date",
-        "issuing_authority",
-        "document_number",
-        "administrative_number",
-        "issuing_country",
-        "issuing_jurisdiction",
-        "portrait",
-        "portrait_capture_date"
-      ]
-    case .AGE:
-      return [
-        "issuance_date",
-        "expiry_date",
-        "issuing_country",
-        "issuing_authority"
-      ]
-    case .MDL, .GENERIC:
+//    case .PID:
+//      return [
+//        "issuance_date",
+//        "expiry_date",
+//        "issuing_authority",
+//        "document_number",
+//        "administrative_number",
+//        "issuing_country",
+//        "issuing_jurisdiction",
+//        "portrait",
+//        "portrait_capture_date"
+//      ]
+//    case .AGE:
+//      return [
+//        "issuance_date",
+//        "expiry_date",
+//        "issuing_country",
+//        "issuing_authority"
+//      ]
+    case .MDL:
       return []
     }
   }
@@ -259,10 +259,10 @@ extension WalletKitController {
       displayStrings.append(
         contentsOf: decodeAgeOver(ageOverDictionary: mdl.ageOverXX)
       )
-    } else if documentType == .PID, let pid = wallet.storage.pidModel {
-      displayStrings.append(
-        contentsOf: decodeAgeOver(ageOverDictionary: pid.ageOverXX)
-      )
+//    } else if documentType == .PID, let pid = wallet.storage.pidModel {
+//      displayStrings.append(
+//        contentsOf: decodeAgeOver(ageOverDictionary: pid.ageOverXX)
+//      )
     }
     // Find the first Value that Matches given Key for document
 

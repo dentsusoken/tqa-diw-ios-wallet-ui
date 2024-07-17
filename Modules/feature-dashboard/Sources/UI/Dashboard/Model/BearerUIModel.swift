@@ -57,7 +57,7 @@ public extension BearerUIModel {
   ) -> BearerUIModel {
 
     let storageDocuments = walletKitController.fetchDocuments(
-      excluded: [DocumentTypeIdentifier.PID]
+      excluded: [DocumentTypeIdentifier.MDL]
     )
 
     var name = walletKitController.fetchMainPidDocument()?.getBearersName()?.first

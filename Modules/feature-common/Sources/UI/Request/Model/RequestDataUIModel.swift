@@ -177,21 +177,21 @@ public struct RequestDataVerification: Identifiable, Equatable {
 
 public extension RequestDataSection {
   enum `Type`: Equatable {
-    case id
+//    case id
     case mdl
-    case age
+//    case age
     case custom(String)
 
     public init(docType: DocumentTypeIdentifier) {
       switch docType {
-      case .PID:
-        self = .id
+//      case .PID:
+//        self = .id
       case .MDL:
         self = .mdl
-      case .AGE:
-        self = .age
-      case .GENERIC(docType: let docType):
-        self = .custom(docType)
+//      case .AGE:
+//        self = .age
+//      case .GENERIC(docType: let docType):
+//        self = .custom(docType)
       }
     }
   }
@@ -333,34 +333,34 @@ extension RequestDataUiModel {
 public struct RequestDataUiModel {
   public static func mock() -> [RequestDataUIModel] {
     [
-      .requestDataSection(.init(type: .id, title: "Digital ID")),
-      .requestDataRow(.init(isSelected: true, isVisible: false, title: "Family Name", value: .string("Tzouvaras"))),
-      .requestDataRow(.init(isSelected: true, isVisible: false, title: "First Name", value: .string("Stilianos"))),
-      .requestDataRow(.init(isSelected: true, isVisible: false, title: "Date of Birth", value: .string("21-09-1985"))),
-      .requestDataRow(.init(isSelected: true, isVisible: false, title: "Resident Country", value: .string("Greece"))),
-      .requestDataVerification(
-        .init(
-          title: "Verification data",
-          items: [
-            .init(isSelected: true, isVisible: false, title: "Family Name", value: .string("Tzouvaras")),
-            .init(isSelected: true, isVisible: false, title: "First Name", value: .string("Stilianos")),
-            .init(isSelected: true, isVisible: false, title: "Date of Birth", value: .string("21-09-1985")),
-            .init(isSelected: true, isVisible: false, title: "Resident Country", value: .string("Greece"))
-          ]
-        )
-      ),
-      .requestDataSection(.init(type: .mdl, title: "MDL")),
-      .requestDataRow(.init(isSelected: true, isVisible: false, title: "Family Name", value: .string("Tzouvaras"))),
-      .requestDataRow(.init(isSelected: true, isVisible: false, title: "First Name", value: .string("Stilianos"))),
-      .requestDataVerification(
-        .init(
-          title: "Verification data",
-          items: [
-            .init(isSelected: true, isVisible: false, title: "Date of Birth", value: .string("21-09-1985")),
-            .init(isSelected: true, isVisible: false, title: "Resident Country", value: .string("Greece"))
-          ]
-        )
-      )
+//      .requestDataSection(.init(type: .id, title: "Digital ID")),
+//      .requestDataRow(.init(isSelected: true, isVisible: false, title: "Family Name", value: .string("Tzouvaras"))),
+//      .requestDataRow(.init(isSelected: true, isVisible: false, title: "First Name", value: .string("Stilianos"))),
+//      .requestDataRow(.init(isSelected: true, isVisible: false, title: "Date of Birth", value: .string("21-09-1985"))),
+//      .requestDataRow(.init(isSelected: true, isVisible: false, title: "Resident Country", value: .string("Greece"))),
+//      .requestDataVerification(
+//        .init(
+//          title: "Verification data",
+//          items: [
+//            .init(isSelected: true, isVisible: false, title: "Family Name", value: .string("Tzouvaras")),
+//            .init(isSelected: true, isVisible: false, title: "First Name", value: .string("Stilianos")),
+//            .init(isSelected: true, isVisible: false, title: "Date of Birth", value: .string("21-09-1985")),
+//            .init(isSelected: true, isVisible: false, title: "Resident Country", value: .string("Greece"))
+//          ]
+//        )
+//      ),
+//      .requestDataSection(.init(type: .mdl, title: "MDL")),
+//      .requestDataRow(.init(isSelected: true, isVisible: false, title: "Family Name", value: .string("Tzouvaras"))),
+//      .requestDataRow(.init(isSelected: true, isVisible: false, title: "First Name", value: .string("Stilianos"))),
+//      .requestDataVerification(
+//        .init(
+//          title: "Verification data",
+//          items: [
+//            .init(isSelected: true, isVisible: false, title: "Date of Birth", value: .string("21-09-1985")),
+//            .init(isSelected: true, isVisible: false, title: "Resident Country", value: .string("Greece"))
+//          ]
+//        )
+//      )
     ]
   }
 }

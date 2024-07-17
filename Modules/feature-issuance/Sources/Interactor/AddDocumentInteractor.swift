@@ -41,31 +41,21 @@ final class AddDocumentInteractorImpl: AddDocumentInteractor {
     let types = AddDocumentUIModel.items.map({
       var item = $0
       switch item.type {
-      case .PID:
-        item.isEnabled = true
+//      case .PID:
+//        item.isEnabled = true
       case .MDL:
         item.isEnabled = true
-      case .AGE:
-        item.isEnabled = flow == .extraDocument
-      case .GENERIC:
-        break
+//      case .AGE:
+//        item.isEnabled = flow == .extraDocument
+//      case .GENERIC:
+//        break
       }
       return item
     })
 
     switch flow {
     case .noDocument:
-      return .success(
-        types + [
-          .init(
-            isEnabled: true,
-            documentName: .loadSampleData,
-            image: Theme.shared.image.id,
-            isLoading: false,
-            type: .GENERIC(docType: "load_sample_data")
-          )
-        ]
-      )
+      return .success(types)
     case .extraDocument:
       return .success(types)
     }

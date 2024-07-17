@@ -79,8 +79,8 @@ final class AddDocumentViewModel<Router: RouterHost>: BaseViewModel<Router, AddD
 
   func onClick(for documentIdentifier: DocumentTypeIdentifier) {
     switch documentIdentifier {
-    case .GENERIC:
-      loadSampleData()
+//    case .GENERIC:
+//      loadSampleData()
     default:
       issueDocument(docType: documentIdentifier.rawValue)
     }

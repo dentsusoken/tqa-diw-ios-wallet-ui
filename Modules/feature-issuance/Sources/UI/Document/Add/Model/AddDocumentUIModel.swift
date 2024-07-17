@@ -48,13 +48,13 @@ public extension AddDocumentUIModel {
 
   static var items: [AddDocumentUIModel] {
     [
-      .init(
-        isEnabled: true,
-        documentName: .pid,
-        image: Theme.shared.image.id,
-        isLoading: false,
-        type: .PID
-      ),
+//      .init(
+//        isEnabled: true,
+//        documentName: .pid,
+//        image: Theme.shared.image.id,
+//        isLoading: false,
+//        type: .PID
+//      ),
       .init(
         isEnabled: true,
         documentName: .mdl,
@@ -62,13 +62,13 @@ public extension AddDocumentUIModel {
         isLoading: false,
         type: .MDL
       ),
-      .init(
-        isEnabled: true,
-        documentName: .ageVerification,
-        image: Theme.shared.image.id,
-        isLoading: false,
-        type: .AGE
-      )
+//      .init(
+//        isEnabled: true,
+//        documentName: .ageVerification,
+//        image: Theme.shared.image.id,
+//        isLoading: false,
+//        type: .AGE
+//      )
     ]
   }
 

@@ -46,7 +46,7 @@ public extension DocumentDetailsUIModel {
   static func mock() -> DocumentDetailsUIModel {
     DocumentDetailsUIModel(
       id: UUID().uuidString,
-      type: DocumentTypeIdentifier.PID,
+      type: DocumentTypeIdentifier.MDL,
       documentName: "Digital ID",
       holdersName: "Jane Doe",
       holdersImage: Theme.shared.image.user,

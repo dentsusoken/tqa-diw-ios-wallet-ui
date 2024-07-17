@@ -77,27 +77,27 @@ public extension DocumentOfferUIModel {
         .init(
           id: UUID().uuidString,
           documentName: "Document Name",
-          documentType: .GENERIC(docType: "")
+          documentType: .MDL
         ),
         .init(
           id: UUID().uuidString,
           documentName: "Document Name",
-          documentType: .GENERIC(docType: "")
+          documentType: .MDL
         ),
         .init(
           id: UUID().uuidString,
           documentName: "Document Name",
-          documentType: .GENERIC(docType: "")
+          documentType: .MDL
         ),
         .init(
           id: UUID().uuidString,
           documentName: "Document Name",
-          documentType: .GENERIC(docType: "")
+          documentType: .MDL
         ),
         .init(
           id: UUID().uuidString,
           documentName: "Document Name",
-          documentType: .GENERIC(docType: "")
+          documentType: .MDL
         )
       ],
       docOffers: []
