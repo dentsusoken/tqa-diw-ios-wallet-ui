@@ -55,7 +55,7 @@ public struct AddDocumentView<Router: RouterHost>: View {
 
       content()
 
-      scanFooter
+//      scanFooter
     }
     .task {
       await self.viewModel.fetchStoredDocuments()
@@ -93,54 +93,54 @@ public struct AddDocumentView<Router: RouterHost>: View {
     }
   }
 
-  private var scanFooter: some View {
-    VStack(spacing: SPACING_MEDIUM) {
+//  private var scanFooter: some View {
+//    VStack(spacing: SPACING_MEDIUM) {
+//
+//      Spacer()
 
-      Spacer()
+//      Text(.or)
+//        .typography(Theme.shared.font.bodyMedium)
+//        .foregroundColor(Theme.shared.color.textSecondaryDark )
+//        .shimmer(isLoading: viewModel.viewState.isLoading)
 
-      Text(.or)
-        .typography(Theme.shared.font.bodyMedium)
-        .foregroundColor(Theme.shared.color.textSecondaryDark )
-        .shimmer(isLoading: viewModel.viewState.isLoading)
-
-      Button(
-        action: { self.viewModel.onScanClick() },
-        label: {
-
-          HStack {
-
-            Spacer()
-
-            VStack(alignment: .center) {
-
-              Theme.shared.image.qrScan
-                .resizable()
-                .renderingMode(.template)
-                .scaledToFit()
-                .foregroundStyle(Theme.shared.color.primary)
-                .frame(height: contentSize / 6)
-
-              Text(.issuanceScanQr)
-                .typography(Theme.shared.font.titleSmall)
-                .foregroundColor(Theme.shared.color.textPrimaryDark )
-            }
-            .padding(.vertical)
-
-            Spacer()
-          }
-
-        }
-      )
-      .background(Theme.shared.color.backgroundDefault)
-      .roundedCorner(SPACING_MEDIUM_SMALL, corners: .allCorners)
-      .padding(.horizontal)
-      .disabled(viewModel.viewState.isLoading)
-      .shimmer(isLoading: viewModel.viewState.isLoading)
-
-      Spacer()
-    }
-    .frame(maxWidth: .infinity, maxHeight: contentSize)
-    .background(Theme.shared.color.backgroundDefault.opacity(0.8))
-    .roundedCorner(SPACING_MEDIUM, corners: [.topLeft, .topRight])
-  }
+//      Button(
+//        action: { self.viewModel.onScanClick() },
+//        label: {
+//
+//          HStack {
+//
+//            Spacer()
+//
+//            VStack(alignment: .center) {
+//
+//              Theme.shared.image.qrScan
+//                .resizable()
+//                .renderingMode(.template)
+//                .scaledToFit()
+//                .foregroundStyle(Theme.shared.color.primary)
+//                .frame(height: contentSize / 6)
+//
+//              Text(.issuanceScanQr)
+//                .typography(Theme.shared.font.titleSmall)
+//                .foregroundColor(Theme.shared.color.textPrimaryDark )
+//            }
+//            .padding(.vertical)
+//
+//            Spacer()
+//          }
+//
+//        }
+//      )
+//      .background(Theme.shared.color.backgroundDefault)
+//      .roundedCorner(SPACING_MEDIUM_SMALL, corners: .allCorners)
+//      .padding(.horizontal)
+//      .disabled(viewModel.viewState.isLoading)
+//      .shimmer(isLoading: viewModel.viewState.isLoading)
+//
+//      Spacer()
+//    }
+//    .frame(maxWidth: .infinity, maxHeight: contentSize)
+//    .background(Theme.shared.color.backgroundDefault.opacity(0.8))
+//    .roundedCorner(SPACING_MEDIUM, corners: [.topLeft, .topRight])
+//  }
 }
