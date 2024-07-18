@@ -35,7 +35,7 @@ final class RouterHostImpl: RouterHost {
   ) {
     self.uiConfigLogic = uiConfigLogic
     self.analyticsController = analyticsController
-    self.pilot = UIPilot(initial: .startup, debug: true)
+    self.pilot = UIPilot(initial: .dashboard, debug: true)
   }
 
   public func push(with route: AppRoute) {
