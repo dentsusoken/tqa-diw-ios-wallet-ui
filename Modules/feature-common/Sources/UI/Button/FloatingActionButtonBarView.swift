@@ -55,15 +55,15 @@ public struct FloatingActionButtonBarView: View {
         action: addAction
       )
 
-      FloatingActionButtonView(
-        title: .showQRTap,
-        textColor: Theme.shared.color.white,
-        backgroundColor: Theme.shared.color.primary,
-        icon: Theme.shared.image.share,
-        iconColor: Theme.shared.color.white,
-        isLoading: isLoading,
-        action: shareAction
-      )
+//      FloatingActionButtonView(
+//        title: .showQRTap,
+//        textColor: Theme.shared.color.white,
+//        backgroundColor: Theme.shared.color.primary,
+//        icon: Theme.shared.image.share,
+//        iconColor: Theme.shared.color.white,
+//        isLoading: isLoading,
+//        action: shareAction
+//      )
 
     }
     .padding(edgeInsets)
