@@ -143,7 +143,7 @@ final class DocumentDetailsViewModel<Router: RouterHost>: BaseViewModel<Router, 
 
   private func onReboot() {
     isDeletionModalShowing = false
-    router.popTo(with: .startup)
+    router.popTo(with: .dashboard)
   }
 
   private func setNewState(
