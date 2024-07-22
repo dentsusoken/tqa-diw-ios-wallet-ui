@@ -51,7 +51,7 @@ final class DashboardInteractorImpl: DashboardInteractor {
 
   public func fetchDashboard() async -> DashboardPartialState {
 
-    let documents: [DocumentUIModel]? = fetchDocuments()
+    let documents: [DocumentUIModel]? = await fetchDocuments()
     let bearer: BearerUIModel = fetchBearer()
 
     guard let documents = documents else {
@@ -83,7 +83,8 @@ final class DashboardInteractorImpl: DashboardInteractor {
     )
   }
 
-  private func fetchDocuments() -> [DocumentUIModel]? {
+  private func fetchDocuments() async -> [DocumentUIModel]? {
+    try? await walletController.loadDocuments()
     let documents = self.walletController.fetchDocuments()
     guard !documents.isEmpty else {
       return nil
