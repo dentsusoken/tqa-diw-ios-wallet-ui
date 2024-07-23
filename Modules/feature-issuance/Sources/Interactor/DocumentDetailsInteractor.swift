@@ -52,12 +52,12 @@ final class DocumentDetailsInteractorImpl: DocumentDetailsInteractor {
           let documentPids = walletController.fetchDocuments(
             with: DocumentTypeIdentifier.MDL
           )
-          let mainPid = walletController.fetchMainPidDocument()
+//          let mainPid = walletController.fetchMainPidDocument()
 
           guard documentPids.count > 1 else { return true }
 
-          return mainPid?.id == documentId
-
+//          return mainPid?.id == documentId
+          return false
         } else {
           return false
         }
