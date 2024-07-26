@@ -733,7 +733,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You will not be able to use your %@ for future verifications"
+            "value" : "削除するとこの %@ は使用できなくなります。"
           }
         }
       }
@@ -744,7 +744,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Delete %@?"
+            "value" : "%@ を削除しますか?"
           }
         }
       }
