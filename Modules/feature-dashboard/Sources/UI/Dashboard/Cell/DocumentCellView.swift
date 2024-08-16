@@ -72,28 +72,28 @@ extension DocumentListView {
 
             Spacer()
 
-            if let expiresAt = item.value.expiresAt {
-              if item.value.hasExpired {
-                ZStack {
-                  Text(.expired)
-                    .typography(Theme.shared.font.bodySmall)
-                    .foregroundColor(Theme.shared.color.warning)
-                  + Text(.space)
-                  + Text(.onExpired([expiresAt]))
-                    .typography(Theme.shared.font.bodySmall)
-                    .foregroundColor(Theme.shared.color.textSecondaryDark)
-                }
-                .lineLimit(2)
-                .minimumScaleFactor(0.5)
+            // if let expiresAt = item.value.expiresAt {
+            //   if item.value.hasExpired {
+            //     ZStack {
+            //       Text(.expired)
+            //         .typography(Theme.shared.font.bodySmall)
+            //         .foregroundColor(Theme.shared.color.warning)
+            //       + Text(.space)
+            //       + Text(.onExpired([expiresAt]))
+            //         .typography(Theme.shared.font.bodySmall)
+            //         .foregroundColor(Theme.shared.color.textSecondaryDark)
+            //     }
+            //     .lineLimit(2)
+            //     .minimumScaleFactor(0.5)
 
-              } else {
-                Text(.validUntil([expiresAt]))
-                  .typography(Theme.shared.font.bodySmall)
-                  .foregroundColor(Theme.shared.color.textSecondaryDark)
-                  .minimumScaleFactor(0.5)
-                  .lineLimit(2)
-              }
-            }
+            //   } else {
+            //     Text(.validUntil([expiresAt]))
+            //       .typography(Theme.shared.font.bodySmall)
+            //       .foregroundColor(Theme.shared.color.textSecondaryDark)
+            //       .minimumScaleFactor(0.5)
+            //       .lineLimit(2)
+            //   }
+            // }
           }
         }
       )
