@@ -91,6 +91,8 @@ public final class LocalizableString: LocalizableStringType {
       bundle.localizedString(forKey: "add_doc")
     case .showQRTap:
       bundle.localizedString(forKey: "show_qr_tap")
+    case .vpHistoryTap:
+      bundle.localizedString(forKey: "vp_history_tap")
     case .welcomeBack:
       bundle.localizedString(forKey: "welcome_back")
     case .pleaseWait:
@@ -299,6 +301,7 @@ public extension LocalizableString {
     case incompleteRequestDataSelection
     case addDoc
     case showQRTap
+    case vpHistoryTap
     case welcomeBack
     case pleaseWait
     case requestDataShareQuickPinCaption
