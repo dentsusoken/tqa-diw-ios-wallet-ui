@@ -13,30 +13,22 @@
  * ANY KIND, either express or implied. See the Licence for the specific language
  * governing permissions and limitations under the Licence.
  */
+import Swinject
+import logic_business
+import logic_core
 
-public extension DIGraph {
+public final class FeatureVPHistoryAssembly: Assembly {
 
-  static func assembleDependenciesGraph() {
-    DIGraph.lazyLoad(
-      with: [
-        // Logic Modules
-        LogicBusinessAssembly(),
-        LogicAnalyticsAssembly(),
-        LogicCoreAssembly(),
-        LogicUiAssembly(),
-        LogicApiAssembly(),
-        LogicAuthAssembly(),
-        LogicAssemblyModule(),
-        // Feature Modules
-        FeatureCommonAssembly(),
-        FeatureStartupAssembly(),
-        FeatureDashboardAssembly(),
-        FeatureLoginAssembly(),
-        FeaturePresentationAssembly(),
-        FeatureProximityAssembly(),
-        FeatureIssuanceAssembly(),
-        FeatureVPHistoryAssembly()
-      ]
-    )
+  public init() {}
+
+  public func assemble(container: Container) {
+    container.register(VPHistoryInteractor.self) { r in
+      VPHistoryInteractorImpl(
+        walletController: r.force(WalletKitController.self),
+        reachabilityController: r.force(ReachabilityController.self),
+        configLogic: r.force(ConfigLogic.self)
+      )
+    }
+    .inObjectScope(ObjectScope.transient)
   }
 }
