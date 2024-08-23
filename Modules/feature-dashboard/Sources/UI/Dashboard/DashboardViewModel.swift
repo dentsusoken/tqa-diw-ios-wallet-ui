@@ -132,6 +132,10 @@ final class DashboardViewModel<Router: RouterHost>: BaseViewModel<Router, Dashbo
     router.push(with: .issuanceAddDocument(config: IssuanceFlowUiConfig(flow: .extraDocument)))
   }
 
+  func onVpHistory() {
+    router.push(with: .vphistory)
+  }
+
   func onMore() {
     isMoreModalShowing = !isMoreModalShowing
   }

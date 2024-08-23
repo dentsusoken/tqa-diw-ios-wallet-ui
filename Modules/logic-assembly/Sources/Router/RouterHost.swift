@@ -129,6 +129,19 @@ final class RouterHostImpl: RouterHost {
             WalletKitController.self
           )
         )
+      case .vphistory:
+        VPHistoryView(
+          with: self,
+          and: DIGraph.resolver.force(
+            VPHistoryInteractor.self
+          ),
+          deeplinkController: DIGraph.resolver.force(
+            DeepLinkController.self
+          ),
+          walletKit: DIGraph.resolver.force(
+            WalletKitController.self
+          )
+        )
       case .biometry(let config):
         BiometryView(
           with: self,

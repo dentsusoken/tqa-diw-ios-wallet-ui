@@ -1786,6 +1786,9 @@
         }
       }
     },
+    "vp_history" : {
+      "extractionState" : "manual"
+    },
     "vp_history_tap" : {
       "extractionState" : "manual",
       "localizations" : {

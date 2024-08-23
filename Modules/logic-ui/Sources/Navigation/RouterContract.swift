@@ -27,6 +27,7 @@ public indirect enum AppRoute: Equatable {
   case success(config: any UIConfigType)
   case faqs
   case dashboard
+  case vphistory
   case biometry(config: any UIConfigType)
   case presentationLoader(String, presentationCoordinator: PresentationSessionCoordinator)
   case presentationRequest(presentationCoordinator: PresentationSessionCoordinator)
@@ -51,6 +52,8 @@ public indirect enum AppRoute: Equatable {
       (key: "Success", arguments: ["config": config.log])
     case .dashboard:
       (key: "Dashboard", arguments: [:])
+    case .vphistory:
+      (key: "VPHistory", arguments: [:])
     case .biometry(let config):
       (key: "Biometry", arguments: ["config": config.log])
     case .welcome:

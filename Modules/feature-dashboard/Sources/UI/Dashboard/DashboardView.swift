@@ -51,10 +51,19 @@ public struct DashboardView<Router: RouterHost>: View {
       }
       .bottomFade()
 
+//      FloatingActionButtonBarView(
+//        isLoading: viewModel.viewState.isLoading,
+//        addAction: viewModel.onAdd(),
+//        shareAction: viewModel.onShare()
+//      )
       FloatingActionButtonBarView(
         isLoading: viewModel.viewState.isLoading,
         addAction: viewModel.onAdd(),
-        shareAction: viewModel.onShare()
+        vpHistoryAction: {
+          Task {
+            viewModel.onVpHistory()
+          }
+        }()
       )
 
       VSpacer.small()
