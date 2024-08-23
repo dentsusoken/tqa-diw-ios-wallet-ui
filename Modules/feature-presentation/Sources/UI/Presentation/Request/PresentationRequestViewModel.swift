@@ -66,22 +66,10 @@ final class PresentationRequestViewModel<Router: RouterHost>: BaseRequestViewMod
   }
 
   override func getSuccessRoute() -> AppRoute? {
-    .biometry(
-      config: UIConfig.Biometry(
-        title: getTitle(),
-        caption: .requestDataShareBiometryCaption,
-        quickPinOnlyCaption: .requestDataShareQuickPinCaption,
-        navigationSuccessType: .push(
-          .presentationLoader(
+    return AppRoute.presentationLoader(
             getRelyingParty(),
             presentationCoordinator: interactor.presentationCoordinator
           )
-        ),
-        navigationBackType: .popTo(.dashboard),
-        isPreAuthorization: false,
-        shouldInitializeBiometricOnCreate: true
-      )
-    )
   }
 
   override func getPopRoute() -> AppRoute? {
