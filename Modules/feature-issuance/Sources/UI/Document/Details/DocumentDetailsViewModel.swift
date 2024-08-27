@@ -18,6 +18,9 @@ import logic_ui
 import logic_resources
 import feature_common
 import logic_core
+import Logging
+// abstract logger. By default writes to console
+let logger = Logger(label: "DocumentDetailsViewModel")
 
 struct DocumentDetailsViewState: ViewState {
   let document: DocumentDetailsUIModel
@@ -124,6 +127,7 @@ final class DocumentDetailsViewModel<Router: RouterHost>: BaseViewModel<Router, 
       )
       switch await self.interactor.deleteDocument(with: id, and: type) {
       case .success(let shouldReboot):
+        logger.info("Successfully deleted data : \(id)")
         if shouldReboot {
           self.onReboot()
         } else {
