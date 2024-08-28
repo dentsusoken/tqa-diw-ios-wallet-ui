@@ -25,7 +25,7 @@ public enum VPHistoryPartialState {
 }
 
 public protocol VPHistoryInteractor {
-  func fetchDashboard() async -> VPHistoryPartialState
+  func fetchVP() async -> VPHistoryPartialState
   func getBleAvailability() async -> Reachability.BleAvailibity
   func openBleSettings()
   func getAppVersion() -> String
@@ -49,9 +49,8 @@ final class VPHistoryInteractorImpl: VPHistoryInteractor {
     self.configLogic = configLogic
   }
 
-  public func fetchDashboard() async -> VPHistoryPartialState {
-
-    let documents: [VPHistoryUIModel]? = await fetchDocuments()
+  public func fetchVP() async -> VPHistoryPartialState {
+    let documents: [VPHistoryUIModel]? = await fetchVPDocuments()
     let bearer: BearerVPUIModel = fetchBearer()
 
     guard let documents = documents else {
@@ -83,12 +82,17 @@ final class VPHistoryInteractorImpl: VPHistoryInteractor {
     )
   }
 
-  private func fetchDocuments() async -> [VPHistoryUIModel]? {
-    try? await walletController.loadDocuments()
-    let documents = self.walletController.fetchDocuments()
-    guard !documents.isEmpty else {
+  private func fetchVPDocuments() async -> [VPHistoryUIModel]? {
+    do {
+      let documents = try await walletController.loadVPDocuments()
+      guard !documents.isEmpty else {
+        return nil
+      }
+      let doc =  documents.transformToVPDocumentUi()
+      return doc
+    } catch {
+      print("Error loading VP documents: \(error)")
       return nil
     }
-    return documents.transformToDocumentUi()
   }
 }

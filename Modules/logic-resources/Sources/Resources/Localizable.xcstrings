@@ -1787,7 +1787,15 @@
       }
     },
     "vp_history" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VP履歴"
+          }
+        }
+      }
     },
     "vp_history_tap" : {
       "extractionState" : "manual",

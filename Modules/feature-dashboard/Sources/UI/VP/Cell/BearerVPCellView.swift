@@ -58,17 +58,6 @@ extension BearerVPHeaderView {
               .lineLimit(1)
               .foregroundColor(Theme.shared.color.black)
             Spacer()
-            Button(
-              action: {
-                guard !isLoading else { return }
-                onMoreClicked()
-              },
-              label: {
-                Theme.shared.image.more
-                  .renderingMode(.template)
-                  .foregroundStyle(Theme.shared.color.primary)
-              }
-            )
           }
         }
         .padding(.horizontal, 6)

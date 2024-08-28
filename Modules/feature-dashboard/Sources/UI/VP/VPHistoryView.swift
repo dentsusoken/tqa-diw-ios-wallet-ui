@@ -19,6 +19,7 @@ import logic_resources
 import logic_business
 import feature_common
 import logic_core
+import WalletStorage
 
 public struct VPHistoryView<Router: RouterHost>: View {
 
@@ -47,20 +48,9 @@ public struct VPHistoryView<Router: RouterHost>: View {
         items: viewModel.viewState.documents,
         isLoading: viewModel.viewState.isLoading
       ) { document in
-        viewModel.onDocumentDetails(documentId: document.value.id)
+        viewModel.onDocumentDetails(documentId: document.id)
       }
       .bottomFade()
-
-//       FloatingActionButtonBarView(
-//         isLoading: viewModel.viewState.isLoading,
-//         addAction: viewModel.onAdd(),
-//         vpHistoryAction: {
-//           Task {
-//             viewModel.onVpHistory()
-//           }
-//         }()
-//       )
-
       VSpacer.small()
     }
     .background(Theme.shared.color.backgroundPaper)
@@ -79,62 +69,8 @@ public struct VPHistoryView<Router: RouterHost>: View {
       )
       content()
     }
-    .sheetDialog(isPresented: $viewModel.isMoreModalShowing) {
-      SheetContentView {
-        VStack(spacing: .zero) {
-
-          ContentTitleView(
-            title: .moreOptions
-          )
-
-          VSpacer.medium()
-
-          Group {
-            WrapButtonView(
-              title: .changeQuickPinOption,
-              backgroundColor: .clear,
-              icon: Theme.shared.image.pencil,
-              gravity: .start,
-              onAction: viewModel.onUpdatePin()
-            )
-            WrapButtonView(
-              title: .scanQrCode,
-              backgroundColor: .clear,
-              icon: Theme.shared.image.qrScan,
-              gravity: .start,
-              onAction: viewModel.onShowScanner()
-            )
-          }
-
-          HStack {
-            Spacer()
-            Text(viewModel.viewState.appVersion)
-              .typography(Theme.shared.font.bodyMedium)
-              .foregroundColor(Theme.shared.color.textSecondaryDark)
-            Spacer()
-          }
-        }
-      }
-    }
-    .sheetDialog(isPresented: $viewModel.isBleModalShowing) {
-      SheetContentView {
-        VStack(spacing: SPACING_MEDIUM) {
-
-          ContentTitleView(
-            title: .bleDisabledModalTitle,
-            caption: .bleDisabledModalCaption
-          )
-
-          WrapButtonView(style: .primary, title: .bleDisabledModalButton, onAction: viewModel.onBleSettings())
-          WrapButtonView(style: .secondary, title: .cancelButton, onAction: viewModel.toggleBleModal())
-        }
-      }
-    }
     .task {
       await viewModel.fetch()
-    }
-    .onChange(of: scenePhase) { phase in
-      self.viewModel.setPhase(with: phase)
     }
   }
 }

@@ -17,175 +17,90 @@ import Foundation
 import logic_core
 import logic_resources
 import logic_business
+import PresentationExchange
+import SiopOpenID4VP
+import MdocDataModel18013
+import SwiftCBOR
 
-public struct VPHistoryUIModel: Identifiable, Equatable {
+public struct VPHistoryUIModel: Identifiable {
 
-  @EquatableNoop
-  public var id: String
+  public var id: String = UUID().uuidString
+  public var verifierName:String?
+  public var verifierURL:String?
+  public var submitAt:Date
+  public var isSuccess:Bool
+  public var idToken:String?
+  public var vpToken:String?
+  public var presentationSubmission:PresentationSubmission?
+  public var message:String?
 
-  public let value: Value
-
-  public init(id: String, value: Value) {
+  public init(id: String = UUID().uuidString, verifierName: String?, verifierURL: String?, submitAt: Date, isSuccess: Bool, consent: ClientConsent,idToken:String? = nil,vpToken:String? = nil,presentationSubmission:PresentationSubmission? = nil,message:String? = nil) {
     self.id = id
-    self.value = value
-  }
-}
-
-public extension VPHistoryUIModel {
-
-  struct Value: Equatable {
-
-    @EquatableNoop
-    public var id: String
-
-    public let type: String
-    public let title: String
-    public var createdAt: Date
-    public let expiresAt: String?
-    public let hasExpired: Bool
+    self.verifierName = verifierName
+    self.verifierURL = verifierURL
+    self.submitAt = submitAt
+    self.isSuccess = isSuccess
+    self.vpToken = vpToken
+    self.presentationSubmission =  presentationSubmission
+    self.message = message
   }
 
-  static func mocks() -> [VPHistoryUIModel] {
+  public func decodeVPToken() -> [IssuerNameSpaces]?{
+      guard let vpToken = self.vpToken  else{ return nil }
+      guard let data = Data(base64URLEncoded: vpToken) else { return nil }
+      let deviceResponse = DeviceResponse(data: [UInt8](data))
+
+      guard let documents = deviceResponse?.documents else { return nil }
+
+      let nameSpacesList =  documents.compactMap {document in
+          return document.issuerSigned.issuerNameSpaces
+      }
+      return nameSpacesList
+  }
+
+  public static func mocks() -> [VPHistoryUIModel] {
     [
       .init(
         id: UUID().uuidString,
-        value: .init(
-          id: UUID().uuidString,
-          type: UUID().uuidString,
-          title: "Digital ID",
-          createdAt: Date(),
-          expiresAt: "22/01/2025",
-          hasExpired: false
-        )
+        verifierName: "Digital ID",
+        verifierURL: "Digital ID URL",
+        submitAt: Date(),
+        isSuccess: false,
+        consent: .idToken(idToken: "1234567890")
       ),
       .init(
         id: UUID().uuidString,
-        value: .init(
-          id: UUID().uuidString,
-          type: UUID().uuidString,
-          title: "EUDI Conference",
-          createdAt: Date(),
-          expiresAt: "22/01/2025",
-          hasExpired: false
-        )
-      ),
-      .init(
-        id: UUID().uuidString,
-        value: .init(
-          id: UUID().uuidString,
-          type: UUID().uuidString,
-          title: "Passport",
-          createdAt: Date(),
-          expiresAt: "22/01/2025",
-          hasExpired: false
-        )
-      ),
-      .init(
-        id: UUID().uuidString,
-        value: .init(
-          id: UUID().uuidString,
-          type: UUID().uuidString,
-          title: "Document 1",
-          createdAt: Date(),
-          expiresAt: "22/01/2025",
-          hasExpired: false
-        )
-      ),
-      .init(
-        id: UUID().uuidString,
-        value: .init(
-          id: UUID().uuidString,
-          type: UUID().uuidString,
-          title: "Document 2",
-          createdAt: Date(),
-          expiresAt: "22/01/2025",
-          hasExpired: false
-        )
-      ),
-      .init(
-        id: UUID().uuidString,
-        value: .init(
-          id: UUID().uuidString,
-          type: UUID().uuidString,
-          title: "Document 3",
-          createdAt: Date(),
-          expiresAt: "22/01/2025",
-          hasExpired: false
-        )
-      ),
-      .init(
-        id: UUID().uuidString,
-        value: .init(
-          id: UUID().uuidString,
-          type: UUID().uuidString,
-          title: "Document 4",
-          createdAt: Date(),
-          expiresAt: "22/01/2025",
-          hasExpired: false
-        )
-      ),
-      .init(
-        id: UUID().uuidString,
-        value: .init(
-          id: UUID().uuidString,
-          type: UUID().uuidString,
-          title: "Document 5",
-          createdAt: Date(),
-          expiresAt: "22/01/2025",
-          hasExpired: false
-        )
-      ),
-      .init(
-        id: UUID().uuidString,
-        value: .init(
-          id: UUID().uuidString,
-          type: UUID().uuidString,
-          title: "Document 6",
-          createdAt: Date(),
-          expiresAt: "22/01/2025",
-          hasExpired: false
-        )
-      ),
-      .init(
-        id: UUID().uuidString,
-        value: .init(
-          id: UUID().uuidString,
-          type: UUID().uuidString,
-          title: "Passport",
-          createdAt: Date(),
-          expiresAt: "22/01/2025",
-          hasExpired: false
-        )
+        verifierName: "EUDI Conference",
+        verifierURL: "EUDI Conference URL",
+        submitAt: Date(),
+        isSuccess: false,
+        consent: .idToken(idToken: "1234567890")
       )
     ]
   }
 }
 
-extension Array where Element == MdocDecodable {
-  func transformToDocumentUi() -> [VPHistoryUIModel] {
+extension Array where Element == PresentationLog {
+  func transformToVPDocumentUi() -> [VPHistoryUIModel] {
     self.map { item in
-      let identifier = DocumentTypeIdentifier(rawValue: item.docType)
-      return .init(
-        id: UUID().uuidString,
-        value: .init(
-          id: item.id,
-          type: item.docType,
-          title: identifier.isSupported
-          ? identifier.localizedTitle
-          : item.title,
-          createdAt: item.createdAt,
-          expiresAt: item.getExpiryDate(
-            parser: {
-              Locale.current.localizedDateTime(
-                date: $0,
-                uiFormatter: "dd MMM yyyy"
-              )
-            }
-          ),
-          hasExpired: item.hasExpired(
-            parser: { Locale.current.parseDate(date: $0) }
-          )
-        )
+      let consent: ClientConsent
+      if let idToken = item.idToken, let vpToken = item.vpToken, let presentationSubmission = item.presentationSubmission {
+        consent = .idAndVPToken(idToken: idToken, vpToken: .generic(vpToken), presentationSubmission: presentationSubmission)
+      } else if let vpToken = item.vpToken, let presentationSubmission = item.presentationSubmission {
+        consent = .vpToken(vpToken: .generic(vpToken), presentationSubmission: presentationSubmission)
+      } else if let idToken = item.idToken {
+        consent = .idToken(idToken: idToken)
+      } else {
+        consent = .negative(message: item.message ?? "No consent provided")
+      }
+
+      return VPHistoryUIModel(
+          id: UUID().uuidString,
+          verifierName: item.verifierName,
+          verifierURL: item.verifierURL,
+          submitAt: item.submitAt,
+          isSuccess: item.isSuccess,
+          consent: consent
       )
     }
   }

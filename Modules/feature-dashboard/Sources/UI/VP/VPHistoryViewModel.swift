@@ -64,13 +64,12 @@ final class VPHistoryViewModel<Router: RouterHost>: BaseViewModel<Router, VPHist
   }
 
   func fetch() async {
-    switch await interactor.fetchDashboard() {
+    switch await interactor.fetchVP() {
     case .success(let bearer, let documents):
       setNewState(
         documents: documents,
         bearer: bearer
       )
-      handleDeepLink()
     case .failure:
       setNewState(
         documents: []
@@ -96,25 +95,6 @@ final class VPHistoryViewModel<Router: RouterHost>: BaseViewModel<Router, VPHist
     )
   }
 
-  func onShare() {
-    Task { [weak self] in
-      guard let self else { return }
-
-      switch await self.interactor.getBleAvailability() {
-      case .available:
-        self.router.push(
-          with: .proximityConnection(
-            presentationCoordinator: self.walletKitController.startProximityPresentation()
-          )
-        )
-      case .noPermission, .disabled:
-        self.toggleBleModal()
-      default:
-        break
-      }
-    }
-  }
-
   func toggleBleModal() {
     guard viewState.phase == .active else {
       setNewState(pendingBleModalAction: true)
@@ -128,33 +108,10 @@ final class VPHistoryViewModel<Router: RouterHost>: BaseViewModel<Router, VPHist
     interactor.openBleSettings()
   }
 
-  // func onAdd() {
-  //   router.push(with: .issuanceAddDocument(config: IssuanceFlowUiConfig(flow: .extraDocument)))
-  // }
-
-  // func onVpHistory() {
-  //   router.push(with: .vphistory)
-  // }
-
   func onMore() {
     isMoreModalShowing = !isMoreModalShowing
   }
 
-  func onUpdatePin() {
-    isMoreModalShowing = false
-    router.push(with: .quickPin(config: QuickPinUiConfig(flow: .update)))
-  }
-
-  func onShowScanner() {
-    isMoreModalShowing = false
-    router.push(with: .qrScanner(config: ScannerUiConfig(flow: .presentation)))
-  }
-
-  private func handleDeepLink() {
-    if let deepLink = deepLinkController.getPendingDeepLinkAction() {
-      deepLinkController.handleDeepLinkAction(routerHost: router, deepLinkExecutable: deepLink)
-    }
-  }
 
   private func setNewState(
     isLoading: Bool = false,
