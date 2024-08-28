@@ -182,6 +182,14 @@ final class RouterHostImpl: RouterHost {
           ),
           config: config
         )
+      case .issuanceVPDocumentDetails(let config):
+        VPHistoryDetailsView(
+          with: self,
+          and: DIGraph.resolver.force(
+            VPHistoryDetailsInteractor.self
+          ),
+          config: config
+        )
       case .issuanceAddDocument(let config):
         AddDocumentView(
           with: self,

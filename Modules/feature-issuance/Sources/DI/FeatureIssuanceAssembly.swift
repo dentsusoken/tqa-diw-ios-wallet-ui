@@ -31,6 +31,11 @@ public final class FeatureIssuanceAssembly: Assembly {
     }
     .inObjectScope(ObjectScope.transient)
 
+    container.register(VPHistoryDetailsInteractor.self) { r in
+      VPHistoryDetailsInteractorImpl(walletController: r.force(WalletKitController.self))
+    }
+    .inObjectScope(ObjectScope.transient)
+
     container.register(DocumentSuccessInteractor.self) { r in
       DocumentSuccessInteractorImpl(walletController: r.force(WalletKitController.self))
     }

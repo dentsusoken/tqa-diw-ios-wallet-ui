@@ -89,7 +89,7 @@ final class VPHistoryViewModel<Router: RouterHost>: BaseViewModel<Router, VPHist
 
   func onDocumentDetails(documentId: String) {
     router.push(
-      with: .issuanceDocumentDetails(
+      with: .issuanceVPDocumentDetails(
         config: IssuanceDetailUiConfig(flow: .extraDocument(documentId))
       )
     )
