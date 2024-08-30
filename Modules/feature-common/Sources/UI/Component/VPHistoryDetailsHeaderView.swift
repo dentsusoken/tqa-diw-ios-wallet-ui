@@ -20,20 +20,20 @@ import logic_ui
 
 public struct VPHistoryDetailsHeaderView: View {
 
-  let verifierName: String
+  let submitAt: Date
   let verifierURL: String
   let isLoading: Bool
   let actions: [ContentHeaderView.Action]?
   let onBack: (() -> Void)?
 
   public init(
-    verifierName: String,
+    submitAt: Date,
     verifierURL: String,
     isLoading: Bool,
     actions: [ContentHeaderView.Action]?,
     onBack: (() -> Void)?
   ) {
-    self.verifierName = verifierName
+    self.submitAt = submitAt
     self.verifierURL = verifierURL
     self.isLoading = isLoading
     self.actions = actions
@@ -43,7 +43,7 @@ public struct VPHistoryDetailsHeaderView: View {
   public var body: some View {
     VStack {
       VPHistoryDetailsHeaderViewCellView(
-        verifierName: verifierName,
+        submitAt: submitAt,
         verifierURL: verifierURL,
         isLoading: isLoading,
         actions: actions,
@@ -57,24 +57,29 @@ extension VPHistoryDetailsHeaderView {
 
   struct VPHistoryDetailsHeaderViewCellView: View {
 
-    let verifierName: String
+    let submitAt: Date
     let verifierURL: String
     let isLoading: Bool
     let actions: [ContentHeaderView.Action]?
     let onBack: (() -> Void)?
 
     public init(
-      verifierName: String,
+      submitAt: Date,
       verifierURL: String,
       isLoading: Bool,
       actions: [ContentHeaderView.Action]?,
       onBack: (() -> Void)?
     ) {
-      self.verifierName = verifierName
+      self.submitAt = submitAt
       self.verifierURL = verifierURL
       self.isLoading = isLoading
       self.actions = actions
       self.onBack = onBack
+    }
+    private var formattedSubmitAt: String {
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "yyyy-MM-dd"
+      return dateFormatter.string(from: submitAt)
     }
 
     public var body: some View {
@@ -90,7 +95,7 @@ extension VPHistoryDetailsHeaderView {
           }
         }
 
-        Text(verifierName)
+        Text(formattedSubmitAt)
           .typography(Theme.shared.font.headlineSmall)
           .foregroundColor(Theme.shared.color.black)
           .shimmer(isLoading: isLoading)

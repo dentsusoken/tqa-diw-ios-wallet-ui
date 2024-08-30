@@ -86,7 +86,7 @@ public struct VPHistoryDetailsView<Router: RouterHost>: View {
     ) {
 
       VPHistoryDetailsHeaderView(
-        verifierName: viewModel.viewState.document.verifierName!,
+        submitAt: viewModel.viewState.document.submitAt,
         verifierURL: viewModel.viewState.document.verifierURL!,
         isLoading: viewModel.viewState.isLoading,
         actions: viewModel.viewState.toolBarActions,
