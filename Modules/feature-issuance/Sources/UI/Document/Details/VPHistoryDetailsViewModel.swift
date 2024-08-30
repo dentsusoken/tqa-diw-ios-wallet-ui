@@ -65,12 +65,9 @@ final class VPHistoryDetailsViewModel<Router: RouterHost>: BaseViewModel<Router,
   func fetchDocumentDetails() async {
 
 //    switch await self.interactor.fetchStoredDocument(documentId: viewState.config.documentId) {
-    print("viewState.config")
-    print(viewState.config)
     switch await self.interactor.fetchStoredDocument(documentId: viewState.config.documentId) {
 
     case .success(let document):
-
       var actions: [ContentHeaderView.Action]? {
         switch viewState.config.flow {
         case .extraDocument:
@@ -111,10 +108,10 @@ final class VPHistoryDetailsViewModel<Router: RouterHost>: BaseViewModel<Router,
     router.push(with: .dashboard)
   }
 
-  func onDeleteDocument() {
-    isDeletionModalShowing = false
-    onDocumentDelete(with: viewState.document.type, and: viewState.document.id)
-  }
+//  func onDeleteDocument() {
+//    isDeletionModalShowing = false
+//    onDocumentDelete(with: viewState.document.type, and: viewState.document.id)
+//  }
 
   func onShowDeleteModal() {
     isDeletionModalShowing = !isDeletionModalShowing

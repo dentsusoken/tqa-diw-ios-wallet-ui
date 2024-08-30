@@ -22,7 +22,7 @@ import PresentationExchange
 public struct VPHistoryDetailsUIModel {
 
   public let id: String
-  public let type: DocumentTypeIdentifier
+//  public let type: DocumentTypeIdentifier
   public var verifierName:String?
   public var verifierURL:String?
   public var submitAt:Date
@@ -31,7 +31,7 @@ public struct VPHistoryDetailsUIModel {
   public var vpToken:String?
   public var presentationSubmission:PresentationSubmission?
   public var message:String?
-  public let documentFields: [DocumentField]
+//  public let documentFields: [DocumentField]
 }
 
 public extension VPHistoryDetailsUIModel {
@@ -50,7 +50,7 @@ public extension VPHistoryDetailsUIModel {
   static func mock() -> VPHistoryDetailsUIModel {
     VPHistoryDetailsUIModel(
       id: UUID().uuidString,
-      type: DocumentTypeIdentifier.MDL,
+//      type: DocumentTypeIdentifier.MDL,
       verifierName: "Digital ID",
       verifierURL: "http://example.com",
       submitAt: Date(),
@@ -62,68 +62,68 @@ public extension VPHistoryDetailsUIModel {
         definitionID: "exampleDefinitionID",
         descriptorMap: []
         ),
-      message: "",
-      documentFields:
-       [
-         .init(
-           id: UUID().uuidString,
-           title: "ID no",
-           value: .string("AB12356")),
-         .init(
-           id: UUID().uuidString,
-           title: "Nationality",
-           value: .string("Hellenic")),
-         .init(
-           id: UUID().uuidString,
-           title: "Place of birth",
-           value: .string("21 Oct 1994")),
-         .init(
-           id: UUID().uuidString,
-           title: "Height",
-           value: .string("1,82"))
-       ]
-      +
-      Array(
-        count: 6,
-        createElement: DocumentField(
-          id: UUID().uuidString,
-          title: "Placeholder Field Title".padded(padLength: 5),
-          value: .string("Placeholder Field Value".padded(padLength: 10))
-        )
-      )
+      message: ""
+//      documentFields:
+//       [
+//         .init(
+//           id: UUID().uuidString,
+//           title: "ID no",
+//           value: .string("AB12356")),
+//         .init(
+//           id: UUID().uuidString,
+//           title: "Nationality",
+//           value: .string("Hellenic")),
+//         .init(
+//           id: UUID().uuidString,
+//           title: "Place of birth",
+//           value: .string("21 Oct 1994")),
+//         .init(
+//           id: UUID().uuidString,
+//           title: "Height",
+//           value: .string("1,82"))
+//       ]
+      
+//      Array(
+//        count: 6,
+//        createElement: DocumentField(
+//          id: UUID().uuidString,
+//          title: "Placeholder Field Title".padded(padLength: 5),
+//          value: .string("Placeholder Field Value".padded(padLength: 10))
+//        )
+//      )
     )
   }
 }
 
-extension MdocDecodable {
-  func transformToVPHistoryDetailsUi() -> VPHistoryDetailsUIModel {
+extension PresentationLog {
+    func transformToVPHistoryDetailsUi() -> VPHistoryDetailsUIModel {
 
-    let documentFields: [VPHistoryDetailsUIModel.DocumentField] =
-    flattenValues(
-      input: displayStrings
-        .compactMap({$0})
-        .sorted(by: {$0.order < $1.order})
-        .decodeGender()
-        .mapTrueFalseToLocalizable()
-        .parseDates(
-          parser: {
-            Locale.current.localizedDateTime(
-              date: $0,
-              uiFormatter: "dd MMM yyyy"
-            )
-          }
-        ),
-      images: displayImages
-    )
+//    let documentFields: [VPHistoryDetailsUIModel.DocumentField] =
+//    flattenValues(
+//      input: displayStrings
+//        .compactMap({$0})
+//        .sorted(by: {$0.order < $1.order})
+//        .decodeGender()
+//        .mapTrueFalseToLocalizable()
+//        .parseDates(
+//          parser: {
+//            Locale.current.localizedDateTime(
+//              date: $0,
+//              uiFormatter: "dd MMM yyyy"
+//            )
+//          }
+//        ),
+//      images: displayImages
+//    )
 
-    var bearerName: String {
-      guard let fullName = getBearersName() else {
-        return ""
-      }
-      return "\(fullName.first) \(fullName.last)"
-    }
+//    var bearerName: String {
+//      guard let fullName = getBearersName() else {
+//        return ""
+//      }
+//      return "\(fullName.first) \(fullName.last)"
+//    }
 
-    let identifier = DocumentTypeIdentifier(rawValue: docType)
+//    let identifier = DocumentTypeIdentifier(rawValue: docType)
 
 //    return .init(
 //      id: id,
@@ -145,11 +145,11 @@ extension MdocDecodable {
 //    )
     return .init(
       id: id,
-      type: identifier,
-      verifierName: "Digital ID",
-      verifierURL: "http://example.com",
-      submitAt: Date(),
-      isSuccess: false,
+//      type: identifier,
+      verifierName: self.verifierName,
+      verifierURL: self.verifierURL,
+      submitAt: self.submitAt,
+      isSuccess: self.isSuccess,
       idToken: "12345678",
       vpToken: "",
       presentationSubmission: PresentationSubmission(
@@ -157,8 +157,8 @@ extension MdocDecodable {
         definitionID: "exampleDefinitionID",
         descriptorMap: []
         ),
-      message: "Example message",
-      documentFields: documentFields
+      message: "Example message"
+//      documentFields: documentFields
     )
   }
 

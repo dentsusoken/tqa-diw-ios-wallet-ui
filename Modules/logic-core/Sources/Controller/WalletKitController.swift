@@ -33,7 +33,7 @@ public protocol WalletKitController {
   func fetchDocuments(excluded: [DocumentTypeIdentifier]) -> [MdocDecodable]
   func fetchMainPidDocument() -> MdocDecodable?
   func fetchDocument(with id: String) -> MdocDecodable?
-  func fetchVPHistory(with id: String) -> MdocDecodable?
+  func fetchVPHistory(with id: String) -> PresentationLog?
 //  func fetchVPHistory(with id: String) -> PresentationLog?
   func loadSampleData(dataFiles: [String]) async throws
   func clearDocuments() async throws
@@ -185,15 +185,12 @@ final class WalletKitControllerImpl: WalletKitController {
   public func fetchDocument(with id: String) -> MdocDecodable? {
 //    wallet.storage.getDocumentModel(id: id)
     let doc = wallet.storage.getDocumentModel(id: id)
-    print("===================")
-    print(doc)
     return doc
   }
 
 //  public func fetchVPHistory(with id: String) -> PresentationLog? {
-  public func fetchVPHistory(with id: String) -> MdocDecodable? {
+  public func fetchVPHistory(with id: String) -> PresentationLog? {
     let doc = wallet.storage.getVPHistoryModel(id: id)
-    print(doc)
     return doc
   }
 

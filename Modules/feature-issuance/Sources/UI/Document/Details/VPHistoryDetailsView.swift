@@ -41,25 +41,25 @@ public struct VPHistoryDetailsView<Router: RouterHost>: View {
 
         VSpacer.medium()
 
-        ForEach(viewModel.viewState.document.documentFields) { documentFieldContent in
-
-          switch documentFieldContent.value {
-          case .string(let value):
-            KeyValueView(
-              title: .custom(documentFieldContent.title),
-              subTitle: .custom(value),
-              isLoading: viewModel.viewState.isLoading
-            )
-          case .image(let data):
-            KeyValueView(
-              title: .custom(documentFieldContent.title),
-              image: Image(data: data),
-              isLoading: viewModel.viewState.isLoading
-            )
-          }
-
-          VSpacer.medium()
-        }
+//        ForEach(viewModel.viewState.document.documentFields) { documentFieldContent in
+//
+//          switch documentFieldContent.value {
+//          case .string(let value):
+//            KeyValueView(
+//              title: .custom(documentFieldContent.title),
+//              subTitle: .custom(value),
+//              isLoading: viewModel.viewState.isLoading
+//            )
+//          case .image(let data):
+//            KeyValueView(
+//              title: .custom(documentFieldContent.title),
+//              image: Image(data: data),
+//              isLoading: viewModel.viewState.isLoading
+//            )
+//          }
+//
+//          VSpacer.medium()
+//        }
       }
       .padding(.horizontal, Theme.shared.dimension.padding)
     }
@@ -104,11 +104,11 @@ public struct VPHistoryDetailsView<Router: RouterHost>: View {
             caption: .issuanceDetailsDeletionCaption([viewModel.viewState.document.verifierName ?? ""])
           )
 
-          WrapButtonView(
-            style: .primary,
-            title: .yes,
-            onAction: viewModel.onDeleteDocument()
-          )
+//          WrapButtonView(
+//            style: .primary,
+//            title: .yes,
+//            onAction: viewModel.onDeleteDocument()
+//          )
           WrapButtonView(
             style: .secondary,
             title: .no,

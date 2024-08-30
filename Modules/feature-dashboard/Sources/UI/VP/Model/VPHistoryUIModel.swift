@@ -95,7 +95,8 @@ extension Array where Element == PresentationLog {
       }
 
       return VPHistoryUIModel(
-          id: UUID().uuidString,
+//          id: UUID().uuidString,
+          id: item.id,
           verifierName: item.verifierName,
           verifierURL: item.verifierURL,
           submitAt: item.submitAt,
