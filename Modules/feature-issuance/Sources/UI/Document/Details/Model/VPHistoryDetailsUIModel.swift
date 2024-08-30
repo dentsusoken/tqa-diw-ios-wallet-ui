@@ -150,15 +150,15 @@ extension PresentationLog {
       verifierURL: self.verifierURL,
       submitAt: self.submitAt,
       isSuccess: self.isSuccess,
-      idToken: "12345678",
-      vpToken: "",
+      idToken: self.idToken,
+      vpToken: self.vpToken,
       presentationSubmission: PresentationSubmission(
-        id: UUID().uuidString,
-        definitionID: "exampleDefinitionID",
+        id: self.presentationSubmission!.id,
+        definitionID: self.presentationSubmission!.definitionID,
         descriptorMap: []
         ),
-      message: "Example message"
-//      documentFields: documentFields
+      message: self.message
+//      documentFields: [documentFields
     )
   }
 
