@@ -41,7 +41,7 @@ extension VPHistoryListView {
         },
         label: {
           VStack(spacing: .zero) {
-            Text(item.verifierURL!)
+            Text(formatDate(item.submitAt))
               .typography(Theme.shared.font.titleMedium)
               .foregroundColor(Theme.shared.color.textPrimaryDark)
               .minimumScaleFactor(0.5)
@@ -50,7 +50,7 @@ extension VPHistoryListView {
             Spacer()
 
             ZStack {
-              Text(formatDate(item.submitAt))
+              Text(item.verifierURL!)
                 .typography(Theme.shared.font.bodyMedium)
                 .foregroundColor(Theme.shared.color.warning)
               + Text(.space)
