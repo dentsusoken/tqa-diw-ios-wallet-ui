@@ -23,14 +23,14 @@ extension BearerVPHeaderView {
     let isLoading: Bool
     let onMoreClicked: () -> Void
 
-    @ViewBuilder
-    var userImage: some View {
-      item.value.image
-        .resizable()
-        .aspectRatio(contentMode: .fit)
-        .frame(maxWidth: 64.0)
-        .cornerRadius(8.0)
-    }
+//    @ViewBuilder
+//    var userImage: some View {
+//      item.value.image
+//        .resizable()
+//        .aspectRatio(contentMode: .fit)
+//        .frame(maxWidth: 64.0)
+//        .cornerRadius(8.0)
+//    }
 
     init(
       item: BearerVPUIModel,
@@ -44,7 +44,7 @@ extension BearerVPHeaderView {
 
     var body: some View {
       HStack {
-        userImage
+//        userImage
         VStack(alignment: .leading) {
           Text(.vphistory)
             .typography(Theme.shared.font.bodyMedium)

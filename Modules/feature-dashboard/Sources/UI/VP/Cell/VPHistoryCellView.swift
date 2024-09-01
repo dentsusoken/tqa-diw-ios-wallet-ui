@@ -41,36 +41,48 @@ extension VPHistoryListView {
         },
         label: {
           VStack(spacing: .zero) {
-            Text(item.verifierURL!)
-              .typography(Theme.shared.font.titleMedium)
+            Text(formatDate(item.submitAt))
+              .typography(Theme.shared.font.bodyMedium)
               .foregroundColor(Theme.shared.color.textPrimaryDark)
               .minimumScaleFactor(0.5)
               .lineLimit(1)
+              .frame(maxWidth: .infinity, alignment: .leading)
 
             Spacer()
-
-            ZStack {
-              Text(formatDate(item.submitAt))
-                .typography(Theme.shared.font.bodyMedium)
-                .foregroundColor(Theme.shared.color.warning)
-              + Text(.space)
-            }
-            .lineLimit(2)
-            .minimumScaleFactor(0.5)
-          }
+              
+              Text(statusMessage(item.isSuccess))
+                  .typography(Theme.shared.font.bodyMedium)
+                  .foregroundColor(item.isSuccess ? .blue : .red)
+                  .frame(maxWidth: .infinity, alignment: .leading)
+            
+            Spacer()
+                         
+              Text(item.verifierURL!)
+                  .typography(Theme.shared.font.bodyMedium)
+                  .foregroundColor(Theme.shared.color.textPrimaryDark)
+                  .frame(maxWidth: .infinity, alignment: .leading)
+              }
+              .frame(maxWidth: .infinity, alignment: .leading)
         }
       )
-      .frame(maxWidth: .infinity, alignment: .center)
+      .frame(maxWidth: .infinity, alignment: .leading)
       .padding()
       .background(Theme.shared.color.backgroundDefault)
       .clipShape(.rect(cornerRadius: 16))
       .shimmer(isLoading: isLoading)
     }
     private func formatDate(_ date: Date) -> String {
-      let formatter = DateFormatter()
-      formatter.dateStyle = .medium
-      formatter.timeStyle = .none
-      return formatter.string(from: date)
+    let dateFormatter = DateFormatter()
+    dateFormatter.calendar = Calendar(identifier: .iso8601)
+    dateFormatter.locale = Locale(identifier: "ja_JP")
+    dateFormatter.dateStyle = .medium
+    dateFormatter.timeStyle = .medium
+    let formattedDate = dateFormatter.string(from: date)
+    return formattedDate
+    }
+      
+    private func statusMessage(_ isSuccess: Bool) -> String {
+          return isSuccess ? "Success" : "Fail"
     }
   }
 }

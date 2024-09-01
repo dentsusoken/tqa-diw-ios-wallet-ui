@@ -38,7 +38,7 @@ struct VPHistoryListView: View {
         columns: [GridItem()],
         spacing: SPACING_SMALL
       ) {
-        ForEach(items) { item in
+        ForEach(items.reversed()) { item in
           VPHistoryCellView(
             item: item,
             isLoading: isLoading,
