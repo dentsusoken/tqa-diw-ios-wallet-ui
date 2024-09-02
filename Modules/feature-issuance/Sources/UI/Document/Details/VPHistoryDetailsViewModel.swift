@@ -64,7 +64,6 @@ final class VPHistoryDetailsViewModel<Router: RouterHost>: BaseViewModel<Router,
 
   func fetchDocumentDetails() async {
 
-//    switch await self.interactor.fetchStoredDocument(documentId: viewState.config.documentId) {
     switch await self.interactor.fetchStoredDocument(documentId: viewState.config.documentId) {
 
     case .success(let document):
