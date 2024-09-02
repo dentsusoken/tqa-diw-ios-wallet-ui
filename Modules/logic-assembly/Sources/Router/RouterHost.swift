@@ -129,7 +129,7 @@ final class RouterHostImpl: RouterHost {
             WalletKitController.self
           )
         )
-      case .vphistory:
+      case .vphistory(let config):
         VPHistoryView(
           with: self,
           and: DIGraph.resolver.force(
@@ -140,7 +140,8 @@ final class RouterHostImpl: RouterHost {
           ),
           walletKit: DIGraph.resolver.force(
             WalletKitController.self
-          )
+          ),
+          config: config
         )
       case .biometry(let config):
         BiometryView(

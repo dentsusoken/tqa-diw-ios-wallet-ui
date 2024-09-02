@@ -30,13 +30,15 @@ public struct VPHistoryView<Router: RouterHost>: View {
     with router: Router,
     and interactor: VPHistoryInteractor,
     deeplinkController: DeepLinkController,
-    walletKit: WalletKitController
+    walletKit: WalletKitController,
+    config: any UIConfigType
   ) {
     self.viewModel = .init(
       router: router,
       interactor: interactor,
       deepLinkController: deeplinkController,
-      walletKit: walletKit
+      walletKit: walletKit,
+      config: config
     )
   }
 
@@ -62,6 +64,13 @@ public struct VPHistoryView<Router: RouterHost>: View {
       canScroll: false,
       background: Theme.shared.color.secondary
     ) {
+        if viewModel.viewState.isFlowCancellable {
+          ContentHeaderView(dismissIcon: Theme.shared.image.xmark) {
+            viewModel.pop()
+          }
+          .padding([.top, .horizontal], Theme.shared.dimension.padding)
+        }
+        
       BearerVPHeaderView(
         item: viewModel.viewState.bearer,
         isLoading: viewModel.viewState.isLoading,

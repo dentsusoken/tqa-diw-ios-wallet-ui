@@ -133,7 +133,7 @@ final class DashboardViewModel<Router: RouterHost>: BaseViewModel<Router, Dashbo
   }
 
   func onVpHistory() {
-    router.push(with: .vphistory)
+    router.push(with: .vphistory(config: IssuanceFlowUiConfig(flow: .extraDocument)))
   }
 
   func onMore() {

@@ -50,7 +50,7 @@ struct BearerVPHeaderView: View {
         onMoreClicked: onMoreClicked()
       )
     }
-    .padding(.vertical, SPACING_EXTRA_LARGE)
+    .padding(.vertical, SPACING_LARGE_MEDIUM)
     .background(Theme.shared.color.secondary)
     .roundedCorner(SPACING_MEDIUM, corners: [.bottomLeft, .bottomRight])
     .background(Theme.shared.color.backgroundPaper)

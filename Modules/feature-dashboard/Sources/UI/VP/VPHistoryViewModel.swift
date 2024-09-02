@@ -26,6 +26,11 @@ struct VPHistoryState: ViewState {
   let phase: ScenePhase
   let pendingBleModalAction: Bool
   let appVersion: String
+  let config: IssuanceFlowUiConfig
+    
+    var isFlowCancellable: Bool {
+      return config.isExtraDocumentFlow
+    }
 }
 
 final class VPHistoryViewModel<Router: RouterHost>: BaseViewModel<Router, VPHistoryState> {
@@ -45,8 +50,12 @@ final class VPHistoryViewModel<Router: RouterHost>: BaseViewModel<Router, VPHist
     router: Router,
     interactor: VPHistoryInteractor,
     deepLinkController: DeepLinkController,
-    walletKit: WalletKitController
+    walletKit: WalletKitController,
+    config: any UIConfigType
   ) {
+      guard let config = config as? IssuanceFlowUiConfig else {
+        fatalError("AddDocumentViewModel:: Invalid configuraton")
+      }
     self.interactor = interactor
     self.deepLinkController = deepLinkController
     self.walletKitController = walletKit
@@ -58,7 +67,9 @@ final class VPHistoryViewModel<Router: RouterHost>: BaseViewModel<Router, VPHist
         bearer: BearerVPUIModel.mock(),
         phase: .active,
         pendingBleModalAction: false,
-        appVersion: interactor.getAppVersion()
+        appVersion: interactor.getAppVersion(),
+        config:config
+        
       )
     )
   }
@@ -112,6 +123,9 @@ final class VPHistoryViewModel<Router: RouterHost>: BaseViewModel<Router, VPHist
     isMoreModalShowing = !isMoreModalShowing
   }
 
+    func pop() {
+      router.pop(animated: true)
+    }
 
   private func setNewState(
     isLoading: Bool = false,
@@ -127,7 +141,8 @@ final class VPHistoryViewModel<Router: RouterHost>: BaseViewModel<Router, VPHist
           bearer: bearer ?? previousSate.bearer,
           phase: phase ?? previousSate.phase,
           pendingBleModalAction: pendingBleModalAction ?? previousSate.pendingBleModalAction,
-          appVersion: previousSate.appVersion
+          appVersion: previousSate.appVersion,
+          config: previousSate.config
         )
     }
   }
