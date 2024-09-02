@@ -20,21 +20,24 @@ import logic_ui
 
 public struct VPHistoryDetailsHeaderView: View {
 
-  let verifierName: String
+  let submitAt: Date
   let verifierURL: String
+  let verifierName: String
   let isLoading: Bool
   let actions: [ContentHeaderView.Action]?
   let onBack: (() -> Void)?
 
   public init(
-    verifierName: String,
+    submitAt: Date,
     verifierURL: String,
+    verifierName: String,
     isLoading: Bool,
     actions: [ContentHeaderView.Action]?,
     onBack: (() -> Void)?
   ) {
-    self.verifierName = verifierName
+    self.submitAt = submitAt
     self.verifierURL = verifierURL
+    self.verifierName = verifierName
     self.isLoading = isLoading
     self.actions = actions
     self.onBack = onBack
@@ -43,8 +46,9 @@ public struct VPHistoryDetailsHeaderView: View {
   public var body: some View {
     VStack {
       VPHistoryDetailsHeaderViewCellView(
-        verifierName: verifierName,
+        submitAt: submitAt,
         verifierURL: verifierURL,
+        verifierName: verifierName,
         isLoading: isLoading,
         actions: actions,
         onBack: onBack
@@ -57,24 +61,32 @@ extension VPHistoryDetailsHeaderView {
 
   struct VPHistoryDetailsHeaderViewCellView: View {
 
-    let verifierName: String
+    let submitAt: Date
     let verifierURL: String
+    let verifierName: String
     let isLoading: Bool
     let actions: [ContentHeaderView.Action]?
     let onBack: (() -> Void)?
 
     public init(
-      verifierName: String,
+      submitAt: Date,
       verifierURL: String,
+      verifierName: String,
       isLoading: Bool,
       actions: [ContentHeaderView.Action]?,
       onBack: (() -> Void)?
     ) {
-      self.verifierName = verifierName
+      self.submitAt = submitAt
       self.verifierURL = verifierURL
+      self.verifierName = verifierName
       self.isLoading = isLoading
       self.actions = actions
       self.onBack = onBack
+    }
+    private var formattedSubmitAt: String {
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+      return dateFormatter.string(from: submitAt)
     }
 
     public var body: some View {
@@ -90,7 +102,7 @@ extension VPHistoryDetailsHeaderView {
           }
         }
 
-        Text(verifierName)
+        Text(formattedSubmitAt)
           .typography(Theme.shared.font.headlineSmall)
           .foregroundColor(Theme.shared.color.black)
           .shimmer(isLoading: isLoading)
@@ -98,7 +110,11 @@ extension VPHistoryDetailsHeaderView {
         Text(verifierURL)
           .typography(Theme.shared.font.bodyLarge)
           .foregroundColor(Theme.shared.color.black)
-          .padding(.bottom)
+          .shimmer(isLoading: isLoading)
+
+        Text(verifierName)
+          .typography(Theme.shared.font.bodyLarge)
+          .foregroundColor(Theme.shared.color.black)
           .shimmer(isLoading: isLoading)
 
         HStack {
@@ -107,7 +123,7 @@ extension VPHistoryDetailsHeaderView {
               Theme.shared.image.idStroke
                 .roundedCorner(Theme.shared.shape.small, corners: .allCorners)
             }
-            .padding(.leading, -40)
+            .padding(.leading, -10)
           }
           Spacer()
         }

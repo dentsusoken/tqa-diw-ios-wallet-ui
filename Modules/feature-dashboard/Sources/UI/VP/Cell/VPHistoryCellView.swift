@@ -56,13 +56,11 @@ extension VPHistoryListView {
                   .frame(maxWidth: .infinity, alignment: .leading)
             
             Spacer()
-                         
-              Text(item.verifierURL!)
-                  .typography(Theme.shared.font.bodyMedium)
-                  .foregroundColor(Theme.shared.color.textPrimaryDark)
-                  .frame(maxWidth: .infinity, alignment: .leading)
-              }
-              .frame(maxWidth: .infinity, alignment: .leading)
+              Text(item.verifierName!)
+                .typography(Theme.shared.font.bodyMedium)
+                .foregroundColor(Theme.shared.color.textPrimaryDark)
+                .frame(maxWidth: .infinity, alignment: .leading)
+          }
         }
       )
       .frame(maxWidth: .infinity, alignment: .leading)
@@ -73,10 +71,7 @@ extension VPHistoryListView {
     }
     private func formatDate(_ date: Date) -> String {
     let dateFormatter = DateFormatter()
-    dateFormatter.calendar = Calendar(identifier: .iso8601)
-    dateFormatter.locale = Locale(identifier: "ja_JP")
-    dateFormatter.dateStyle = .medium
-    dateFormatter.timeStyle = .medium
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
     let formattedDate = dateFormatter.string(from: date)
     return formattedDate
     }

@@ -34,11 +34,8 @@ final class VPHistoryDetailsInteractorImpl: VPHistoryDetailsInteractor {
   }
 
   public func fetchStoredDocument(documentId: String) async -> VPHistoryDetailsPartialState {
-//  public func fetchStoredDocument( config: IssuanceDetailUiConfig) async -> VPHistoryDetailsPartialState {
     let document = walletController.fetchVPHistory(with: documentId)
-//    let document = walletController.fetchVPHistory(config)
-
-      guard let documentDetails = document?.transformToVPHistoryDetailsUi() else {
+    guard let documentDetails = document?.transformToVPHistoryDetailsUi() else {
       return .failure(WalletCoreError.unableFetchDocument)
     }
     return .success(documentDetails)
