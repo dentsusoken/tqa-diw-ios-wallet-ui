@@ -25,6 +25,7 @@ struct VPHistoryDetailsViewState: ViewState {
   let error: ContentErrorView.Config?
   let config: IssuanceDetailUiConfig
   let toolBarActions: [ContentHeaderView.Action]?
+  var data: [DataItem] = []
 
   var isCancellable: Bool {
     return config.isExtraDocument
@@ -33,11 +34,17 @@ struct VPHistoryDetailsViewState: ViewState {
   var hasContinueButton: Bool {
     return !config.isExtraDocument
   }
+  struct DataItem: Identifiable {
+    let id = UUID()
+    let number: String
+    let email: String
+  }
 }
 
 final class VPHistoryDetailsViewModel<Router: RouterHost>: BaseViewModel<Router, VPHistoryDetailsViewState> {
 
   @Published var isDeletionModalShowing: Bool = false
+  @Published var issuerNameSpaces: [IssuerNameSpaces]?
 
   private let interactor: VPHistoryDetailsInteractor
 
@@ -70,22 +77,41 @@ final class VPHistoryDetailsViewModel<Router: RouterHost>: BaseViewModel<Router,
       var actions: [ContentHeaderView.Action]? {
         switch viewState.config.flow {
         case .extraDocument:
-          return [
-            .init(
-              image: Theme.shared.image.trash,
-              callback: self.onShowDeleteModal()
-            )
-          ]
+          return []
         case .noDocument:
           return nil
         }
       }
+      guard let (issuerNameSpaces) = document.decodeVPToken() else {
+        return
+      }
 
+      var data : [VPHistoryDetailsViewState.DataItem] = []
+      for issuerNameSpace in issuerNameSpaces {
+        if let nameSpaces = issuerNameSpace.nameSpaces["org.iso.18013.5.1"] {
+          var number = ""
+          var email = ""
+          if nameSpaces[0].elementIdentifier != "given_name" {
+             number = nameSpaces[0].description
+             email = nameSpaces[1].description
+          } else {
+            number = nameSpaces[1].description
+             email = nameSpaces[0].description
+          }
+          data.append(VPHistoryDetailsViewState.DataItem(
+            number: number,
+            email: email))
+        }
+      }
       self.setNewState(
         isLoading: false,
         document: document,
-        toolBarActions: actions
+        toolBarActions: actions,
+        data: data
       )
+      DispatchQueue.main.async {
+        self.issuerNameSpaces = issuerNameSpaces
+      }
 
     case .failure(let error):
       self.setNewState(
@@ -100,44 +126,15 @@ final class VPHistoryDetailsViewModel<Router: RouterHost>: BaseViewModel<Router,
 
   func pop() {
     isDeletionModalShowing = false
-    router.popTo(with: .dashboard)
+    router.popTo(with: .vphistory(config: IssuanceFlowUiConfig(flow: .extraDocument)))
   }
 
   func onContinue() {
     router.push(with: .dashboard)
   }
 
-//  func onDeleteDocument() {
-//    isDeletionModalShowing = false
-//    onDocumentDelete(with: viewState.document.type, and: viewState.document.id)
-//  }
-
   func onShowDeleteModal() {
     isDeletionModalShowing = !isDeletionModalShowing
-  }
-
-  private func onDocumentDelete(with type: DocumentTypeIdentifier, and id: String) {
-    Task {
-      self.setNewState(
-        isLoading: true
-      )
-      switch await self.interactor.deleteDocument(with: id, and: type) {
-      case .success(let shouldReboot):
-        if shouldReboot {
-          self.onReboot()
-        } else {
-          self.pop()
-        }
-      case .failure(let error):
-        self.setNewState(
-          isLoading: false,
-          error: ContentErrorView.Config(
-            description: .custom(error.localizedDescription),
-            cancelAction: self.setNewState(error: nil)
-          )
-        )
-      }
-    }
   }
 
   private func onReboot() {
@@ -149,7 +146,8 @@ final class VPHistoryDetailsViewModel<Router: RouterHost>: BaseViewModel<Router,
     isLoading: Bool = false,
     document: VPHistoryDetailsUIModel? = nil,
     error: ContentErrorView.Config? = nil,
-    toolBarActions: [ContentHeaderView.Action]? = nil
+    toolBarActions: [ContentHeaderView.Action]? = nil,
+    data: [VPHistoryDetailsViewState.DataItem]? = nil
   ) {
     setState { previous in
         .init(
@@ -157,7 +155,8 @@ final class VPHistoryDetailsViewModel<Router: RouterHost>: BaseViewModel<Router,
           isLoading: isLoading,
           error: error,
           config: previous.config,
-          toolBarActions: toolBarActions ?? previous.toolBarActions
+          toolBarActions: toolBarActions ?? previous.toolBarActions,
+          data: data ?? previous.data
         )
     }
   }

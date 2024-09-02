@@ -38,14 +38,33 @@ public struct VPHistoryDetailsView<Router: RouterHost>: View {
   func content() -> some View {
     ScrollView {
       VStack(spacing: .zero) {
+        ForEach(viewModel.viewState.data) { data in
 
-        VSpacer.medium()
+          VSpacer.medium()
+
           KeyValueView(
-            title: .custom("VPToken"),
-            subTitle: .custom(viewModel.viewState.document.vpToken!),
+            title: .documentNumber,
+            subTitle: .custom(data.number),
             isLoading: viewModel.viewState.isLoading
           )
-       VSpacer.medium()
+          KeyValueView(
+            title: .givenName,
+            subTitle: .custom(data.email),
+            isLoading: viewModel.viewState.isLoading
+          )
+            VSpacer.medium()
+          }
+
+//        ForEach(viewModel.viewState.issuerEmails, id: \.self.elementIdentifier) { email in
+//
+//          KeyValueView(
+//            title: .custom("メールアドレス"),
+//            subTitle: .custom(email.description),
+//            isLoading: viewModel.viewState.isLoading
+//          )
+//            VSpacer.medium()
+//          }
+//       VSpacer.medium()
       }
       .padding(.horizontal, Theme.shared.dimension.padding)
     }
@@ -96,11 +115,11 @@ public struct VPHistoryDetailsView<Router: RouterHost>: View {
 //            title: .yes,
 //            onAction: viewModel.onDeleteDocument()
 //          )
-          WrapButtonView(
-            style: .secondary,
-            title: .no,
-            onAction: viewModel.onShowDeleteModal()
-          )
+//          WrapButtonView(
+//            style: .secondary,
+//            title: .no,
+//            onAction: viewModel.onShowDeleteModal()
+//          )
         }
       }
     }
