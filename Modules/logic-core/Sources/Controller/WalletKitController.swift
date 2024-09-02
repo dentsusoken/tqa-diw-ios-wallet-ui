@@ -34,7 +34,6 @@ public protocol WalletKitController {
   func fetchMainPidDocument() -> MdocDecodable?
   func fetchDocument(with id: String) -> MdocDecodable?
   func fetchVPHistory(with id: String) -> PresentationLog?
-//  func fetchVPHistory(with id: String) -> PresentationLog?
   func loadSampleData(dataFiles: [String]) async throws
   func clearDocuments() async throws
   func deleteDocument(with id: String) async throws
@@ -188,7 +187,6 @@ final class WalletKitControllerImpl: WalletKitController {
     return doc
   }
 
-//  public func fetchVPHistory(with id: String) -> PresentationLog? {
   public func fetchVPHistory(with id: String) -> PresentationLog? {
     let doc = wallet.storage.getVPHistoryModel(id: id)
     return doc

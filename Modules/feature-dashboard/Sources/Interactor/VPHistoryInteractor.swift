@@ -89,7 +89,6 @@ final class VPHistoryInteractorImpl: VPHistoryInteractor {
         return nil
       }
       let doc =  documents.transformToVPDocumentUi()
-      print(doc)
       return doc
     } catch {
       print("Error loading VP documents: \(error)")

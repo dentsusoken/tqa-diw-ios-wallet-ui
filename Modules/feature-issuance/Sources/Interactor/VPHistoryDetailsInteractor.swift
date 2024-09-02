@@ -22,7 +22,6 @@ import feature_common
 
 public protocol VPHistoryDetailsInteractor {
   func fetchStoredDocument(documentId: String) async -> VPHistoryDetailsPartialState
-  func deleteDocument(with documentId: String, and type: DocumentTypeIdentifier) async -> VPHistoryDetailsDeletionPartialState
 }
 
 final class VPHistoryDetailsInteractorImpl: VPHistoryDetailsInteractor {
@@ -41,38 +40,65 @@ final class VPHistoryDetailsInteractorImpl: VPHistoryDetailsInteractor {
     return .success(documentDetails)
   }
 
-  public func deleteDocument(with documentId: String, and type: DocumentTypeIdentifier) async -> VPHistoryDetailsDeletionPartialState {
+//  public func deleteDocument(with documentId: String, and type: DocumentTypeIdentifier) async -> VPHistoryDetailsDeletionPartialState {
+//
+//    let successState: VPHistoryDetailsDeletionPartialState
+//
+//    do {
+//
+//      var shouldDeleteAllDocuments: Bool {
+//        if type == .MDL {
+//
+//          let documentPids = walletController.fetchDocuments(
+//            with: DocumentTypeIdentifier.MDL
+//          )
+//          guard documentPids.count > 1 else { return true }
+//          return false
+//        } else {
+//          return false
+//        }
+//      }
+//
+//      if shouldDeleteAllDocuments {
+//        try await walletController.clearDocuments()
+//        successState = .success(shouldReboot: true)
+//      } else {
+//        try await walletController.deleteDocument(with: documentId)
+//        successState = .success(shouldReboot: false)
+//      }
 
-    let successState: VPHistoryDetailsDeletionPartialState
-
-    do {
-
-      var shouldDeleteAllDocuments: Bool {
-        if type == .MDL {
-
-          let documentPids = walletController.fetchDocuments(
-            with: DocumentTypeIdentifier.MDL
-          )
-          guard documentPids.count > 1 else { return true }
-          return false
-        } else {
-          return false
-        }
-      }
-
-      if shouldDeleteAllDocuments {
-        try await walletController.clearDocuments()
-        successState = .success(shouldReboot: true)
-      } else {
-        try await walletController.deleteDocument(with: documentId)
-        successState = .success(shouldReboot: false)
-      }
-
-    } catch {
-      return .failure(error)
-    }
-    return successState
-  }
+//  public func deleteDocument(with documentId: String, and type: DocumentTypeIdentifier) async -> VPHistoryDetailsDeletionPartialState {
+//
+//    let successState: VPHistoryDetailsDeletionPartialState
+//
+//    do {
+//
+//      var shouldDeleteAllDocuments: Bool {
+//        if type == .MDL {
+//
+//          let documentPids = walletController.fetchDocuments(
+//            with: DocumentTypeIdentifier.MDL
+//          )
+//          guard documentPids.count > 1 else { return true }
+//          return false
+//        } else {
+//          return false
+//        }
+//      }
+//
+//      if shouldDeleteAllDocuments {
+//        try await walletController.clearDocuments()
+//        successState = .success(shouldReboot: true)
+//      } else {
+//        try await walletController.deleteDocument(with: documentId)
+//        successState = .success(shouldReboot: false)
+//      }
+//
+//    } catch {
+//      return .failure(error)
+//    }
+//    return successState
+//  }
 }
 
 public enum VPHistoryDetailsPartialState {

@@ -45,19 +45,6 @@ public struct VPHistoryUIModel: Identifiable {
     self.message = message
   }
 
-  public func decodeVPToken() -> [IssuerNameSpaces]?{
-      guard let vpToken = self.vpToken  else{ return nil }
-      guard let data = Data(base64URLEncoded: vpToken) else { return nil }
-      let deviceResponse = DeviceResponse(data: [UInt8](data))
-
-      guard let documents = deviceResponse?.documents else { return nil }
-
-      let nameSpacesList =  documents.compactMap {document in
-          return document.issuerSigned.issuerNameSpaces
-      }
-      return nameSpacesList
-  }
-
   public static func mocks() -> [VPHistoryUIModel] {
     [
       .init(
@@ -95,7 +82,6 @@ extension Array where Element == PresentationLog {
       }
 
       return VPHistoryUIModel(
-//          id: UUID().uuidString,
           id: item.id,
           verifierName: item.verifierName,
           verifierURL: item.verifierURL,
