@@ -38,6 +38,7 @@ struct VPHistoryDetailsViewState: ViewState {
     let id = UUID()
     let number: String
     let email: String
+    let dataType: String
   }
 }
 
@@ -88,19 +89,28 @@ final class VPHistoryDetailsViewModel<Router: RouterHost>: BaseViewModel<Router,
 
       var data : [VPHistoryDetailsViewState.DataItem] = []
       for issuerNameSpace in issuerNameSpaces {
-        if let nameSpaces = issuerNameSpace.nameSpaces["org.iso.18013.5.1"] {
-          var number = ""
-          var email = ""
-          if nameSpaces[0].elementIdentifier != "given_name" {
-             number = nameSpaces[0].description
-             email = nameSpaces[1].description
-          } else {
-            number = nameSpaces[1].description
-             email = nameSpaces[0].description
+        for key in issuerNameSpace.nameSpaces.keys {
+          if let nameSpaces = issuerNameSpace.nameSpaces[key] {
+            var number = ""
+            var email = ""
+            var dataType = key
+            if nameSpaces[0].elementIdentifier != "given_name" {
+              number = nameSpaces[0].description
+              if nameSpaces.count == 2 {
+                email = nameSpaces[1].description
+              }
+            } else {
+              email = nameSpaces[0].description
+              if nameSpaces.count == 2 {
+                number = nameSpaces[1].description
+              }
+            }
+            data.append(VPHistoryDetailsViewState.DataItem(
+              number: number,
+              email: email,
+              dataType: dataType
+            ))
           }
-          data.append(VPHistoryDetailsViewState.DataItem(
-            number: number,
-            email: email))
         }
       }
       self.setNewState(

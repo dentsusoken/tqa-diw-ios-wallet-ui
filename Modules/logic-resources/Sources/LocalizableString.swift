@@ -197,6 +197,8 @@ public final class LocalizableString: LocalizableStringType {
       bundle.localizedString(forKey: "document_number")
     case .givenName:
       bundle.localizedString(forKey: "given_name")
+    case .vcType:
+      bundle.localizedString(forKey: "vc_Type")
     case .yes:
       bundle.localizedString(forKey: "yes")
     case .no:
@@ -360,6 +362,7 @@ public extension LocalizableString {
     case issuedAt
     case documentNumber
     case givenName
+    case vcType
     case yes
     case no
     case scanQrCode

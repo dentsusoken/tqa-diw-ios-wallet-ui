@@ -43,28 +43,32 @@ public struct VPHistoryDetailsView<Router: RouterHost>: View {
           VSpacer.medium()
 
           KeyValueView(
-            title: .documentNumber,
-            subTitle: .custom(data.number),
+            title: .vcType,
+            subTitle: .custom(data.dataType),
             isLoading: viewModel.viewState.isLoading
           )
-          KeyValueView(
-            title: .givenName,
-            subTitle: .custom(data.email),
-            isLoading: viewModel.viewState.isLoading
-          )
-            VSpacer.medium()
+          Group{
+            if !data.number.isEmpty {
+              KeyValueView(
+                title: .documentNumber,
+                subTitle: .custom(data.number),
+                isLoading: viewModel.viewState.isLoading
+              )
+            }
           }
-
-//        ForEach(viewModel.viewState.issuerEmails, id: \.self.elementIdentifier) { email in
-//
-//          KeyValueView(
-//            title: .custom("メールアドレス"),
-//            subTitle: .custom(email.description),
-//            isLoading: viewModel.viewState.isLoading
-//          )
-//            VSpacer.medium()
-//          }
-//       VSpacer.medium()
+          .offset(x: 10)
+          Group{
+            if !data.email.isEmpty {
+              KeyValueView(
+                title: .givenName,
+                subTitle: .custom(data.email),
+                isLoading: viewModel.viewState.isLoading
+              )
+            }
+          }
+          .offset(x: 10)
+          VSpacer.medium()
+        }
       }
       .padding(.horizontal, Theme.shared.dimension.padding)
     }
