@@ -94,6 +94,7 @@ public struct VPHistoryDetailsView<Router: RouterHost>: View {
         submitAt: viewModel.viewState.document.submitAt,
         verifierURL: viewModel.viewState.document.verifierURL!,
         verifierName: viewModel.viewState.document.verifierName!,
+        isSuccess: viewModel.viewState.document.isSuccess,
         isLoading: viewModel.viewState.isLoading,
         actions: viewModel.viewState.toolBarActions,
         onBack: viewModel.viewState.isCancellable ? { viewModel.pop() } : nil

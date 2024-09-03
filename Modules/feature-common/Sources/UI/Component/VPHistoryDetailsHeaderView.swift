@@ -23,6 +23,7 @@ public struct VPHistoryDetailsHeaderView: View {
   let submitAt: Date
   let verifierURL: String
   let verifierName: String
+  let isSuccess: Bool
   let isLoading: Bool
   let actions: [ContentHeaderView.Action]?
   let onBack: (() -> Void)?
@@ -31,6 +32,7 @@ public struct VPHistoryDetailsHeaderView: View {
     submitAt: Date,
     verifierURL: String,
     verifierName: String,
+    isSuccess: Bool,
     isLoading: Bool,
     actions: [ContentHeaderView.Action]?,
     onBack: (() -> Void)?
@@ -38,6 +40,7 @@ public struct VPHistoryDetailsHeaderView: View {
     self.submitAt = submitAt
     self.verifierURL = verifierURL
     self.verifierName = verifierName
+    self.isSuccess = isSuccess
     self.isLoading = isLoading
     self.actions = actions
     self.onBack = onBack
@@ -49,6 +52,7 @@ public struct VPHistoryDetailsHeaderView: View {
         submitAt: submitAt,
         verifierURL: verifierURL,
         verifierName: verifierName,
+        isSuccess: isSuccess,
         isLoading: isLoading,
         actions: actions,
         onBack: onBack
@@ -64,6 +68,7 @@ extension VPHistoryDetailsHeaderView {
     let submitAt: Date
     let verifierURL: String
     let verifierName: String
+    let isSuccess: Bool
     let isLoading: Bool
     let actions: [ContentHeaderView.Action]?
     let onBack: (() -> Void)?
@@ -72,6 +77,7 @@ extension VPHistoryDetailsHeaderView {
       submitAt: Date,
       verifierURL: String,
       verifierName: String,
+      isSuccess: Bool,
       isLoading: Bool,
       actions: [ContentHeaderView.Action]?,
       onBack: (() -> Void)?
@@ -79,6 +85,7 @@ extension VPHistoryDetailsHeaderView {
       self.submitAt = submitAt
       self.verifierURL = verifierURL
       self.verifierName = verifierName
+      self.isSuccess = isSuccess
       self.isLoading = isLoading
       self.actions = actions
       self.onBack = onBack
@@ -107,15 +114,21 @@ extension VPHistoryDetailsHeaderView {
           .foregroundColor(Theme.shared.color.black)
           .shimmer(isLoading: isLoading)
 
+        Text(verifierName)
+          .typography(Theme.shared.font.bodyLarge)
+          .foregroundColor(Theme.shared.color.black)
+          .shimmer(isLoading: isLoading)
+
         Text(verifierURL)
           .typography(Theme.shared.font.bodyLarge)
           .foregroundColor(Theme.shared.color.black)
           .shimmer(isLoading: isLoading)
 
-        Text(verifierName)
-          .typography(Theme.shared.font.bodyLarge)
-          .foregroundColor(Theme.shared.color.black)
-          .shimmer(isLoading: isLoading)
+        Text(statusMessage(isSuccess))
+            .typography(Theme.shared.font.bodyMedium)
+            .foregroundColor(isSuccess ? .blue : .red)
+            .shimmer(isLoading: isLoading)
+            .frame(maxWidth: .infinity, alignment: .leading)
 
         HStack {
           if !isLoading {
@@ -133,6 +146,9 @@ extension VPHistoryDetailsHeaderView {
       .frame(maxWidth: .infinity)
       .background(Theme.shared.color.secondary)
       .roundedCorner(Theme.shared.shape.small, corners: [.bottomLeft, .bottomRight])
+    }
+    private func statusMessage(_ isSuccess: Bool) -> String {
+          return isSuccess ? "Success" : "Fail"
     }
   }
 }
