@@ -27,6 +27,7 @@ public indirect enum AppRoute: Equatable {
   case success(config: any UIConfigType)
   case faqs
   case dashboard
+  case vphistory(config: any UIConfigType)
   case biometry(config: any UIConfigType)
   case presentationLoader(String, presentationCoordinator: PresentationSessionCoordinator)
   case presentationRequest(presentationCoordinator: PresentationSessionCoordinator)
@@ -37,6 +38,7 @@ public indirect enum AppRoute: Equatable {
   case quickPin(config: any UIConfigType)
   case issuanceAddDocument(config: any UIConfigType)
   case issuanceDocumentDetails(config: any UIConfigType)
+  case issuanceVPDocumentDetails(config: any UIConfigType)
   case issuanceSuccess(config: any UIConfigType, documentIdentifier: String)
   case qrScanner(config: any UIConfigType)
   case credentialOfferRequest(config: any UIConfigType)
@@ -51,6 +53,8 @@ public indirect enum AppRoute: Equatable {
       (key: "Success", arguments: ["config": config.log])
     case .dashboard:
       (key: "Dashboard", arguments: [:])
+    case .vphistory(let config):
+      (key: "VPHistory", arguments: ["config": config.log])
     case .biometry(let config):
       (key: "Biometry", arguments: ["config": config.log])
     case .welcome:
@@ -71,6 +75,8 @@ public indirect enum AppRoute: Equatable {
       (key: "IssuanceAddDocument", arguments: ["config": config.log])
     case .issuanceDocumentDetails(let config):
       (key: "IssuanceDocumentDetails", arguments: ["config": config.log])
+    case .issuanceVPDocumentDetails(let config):
+      (key: "IssuanceVPDocumentDetails", arguments: ["config": config.log])
     case .issuanceSuccess(let config, let id):
       (key: "IssuanceSuccess", arguments: ["id": id, "config": config.log])
     case .qrScanner(config: let config):

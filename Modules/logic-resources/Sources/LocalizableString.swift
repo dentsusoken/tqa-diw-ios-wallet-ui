@@ -91,8 +91,12 @@ public final class LocalizableString: LocalizableStringType {
       bundle.localizedString(forKey: "add_doc")
     case .showQRTap:
       bundle.localizedString(forKey: "show_qr_tap")
+    case .vpHistoryTap:
+      bundle.localizedString(forKey: "vp_history_tap")
     case .welcomeBack:
       bundle.localizedString(forKey: "welcome_back")
+    case .vphistory:
+      bundle.localizedString(forKey: "vp_history")
     case .pleaseWait:
       bundle.localizedString(forKey: "please_wait")
     case .requestDataShareQuickPinCaption:
@@ -189,6 +193,12 @@ public final class LocalizableString: LocalizableStringType {
       bundle.localizedString(forKey: "expiry")
     case .issuedAt:
       bundle.localizedString(forKey: "issued_at")
+    case .documentNumber:
+      bundle.localizedString(forKey: "document_number")
+    case .givenName:
+      bundle.localizedString(forKey: "given_name")
+    case .vcType:
+      bundle.localizedString(forKey: "vc_Type")
     case .yes:
       bundle.localizedString(forKey: "yes")
     case .no:
@@ -299,7 +309,9 @@ public extension LocalizableString {
     case incompleteRequestDataSelection
     case addDoc
     case showQRTap
+    case vpHistoryTap
     case welcomeBack
+    case vphistory
     case pleaseWait
     case requestDataShareQuickPinCaption
     case requestDataShareBiometryCaption
@@ -348,6 +360,9 @@ public extension LocalizableString {
     case unknownIssuer
     case expiry
     case issuedAt
+    case documentNumber
+    case givenName
+    case vcType
     case yes
     case no
     case scanQrCode

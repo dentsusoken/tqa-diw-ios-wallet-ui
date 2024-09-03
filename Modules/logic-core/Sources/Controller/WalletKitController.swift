@@ -33,11 +33,13 @@ public protocol WalletKitController {
   func fetchDocuments(excluded: [DocumentTypeIdentifier]) -> [MdocDecodable]
   func fetchMainPidDocument() -> MdocDecodable?
   func fetchDocument(with id: String) -> MdocDecodable?
+  func fetchVPHistory(with id: String) -> PresentationLog?
   func loadSampleData(dataFiles: [String]) async throws
   func clearDocuments() async throws
   func deleteDocument(with id: String) async throws
   func loadDocuments() async throws
   func issueDocument(docType: String, format: DataFormat) async throws -> WalletStorage.Document
+  func loadVPDocuments() async throws -> [PresentationLog]
   func resolveOfferUrlDocTypes(uriOffer: String) async throws -> [OfferedDocModel]
   func issueDocumentsByOfferUrl(
     offerUri: String,
@@ -103,6 +105,11 @@ final class WalletKitControllerImpl: WalletKitController {
 
   public func loadDocuments() async throws {
     _ = try await wallet.loadDocuments()
+  }
+
+  public func loadVPDocuments() async throws -> [PresentationLog] {
+    let documents = try await wallet.loadVPDocuments()
+    return documents!
   }
 
   public func startProximityPresentation() -> PresentationSessionCoordinator {
@@ -175,7 +182,14 @@ final class WalletKitControllerImpl: WalletKitController {
   }
 
   public func fetchDocument(with id: String) -> MdocDecodable? {
-    wallet.storage.getDocumentModel(id: id)
+//    wallet.storage.getDocumentModel(id: id)
+    let doc = wallet.storage.getDocumentModel(id: id)
+    return doc
+  }
+
+  public func fetchVPHistory(with id: String) -> PresentationLog? {
+    let doc = wallet.storage.getVPHistoryModel(id: id)
+    return doc
   }
 
   public func issueDocument(docType: String, format: DataFormat) async throws -> WalletStorage.Document {

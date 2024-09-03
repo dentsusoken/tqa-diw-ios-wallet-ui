@@ -129,6 +129,20 @@ final class RouterHostImpl: RouterHost {
             WalletKitController.self
           )
         )
+      case .vphistory(let config):
+        VPHistoryView(
+          with: self,
+          and: DIGraph.resolver.force(
+            VPHistoryInteractor.self
+          ),
+          deeplinkController: DIGraph.resolver.force(
+            DeepLinkController.self
+          ),
+          walletKit: DIGraph.resolver.force(
+            WalletKitController.self
+          ),
+          config: config
+        )
       case .biometry(let config):
         BiometryView(
           with: self,
@@ -166,6 +180,14 @@ final class RouterHostImpl: RouterHost {
           with: self,
           and: DIGraph.resolver.force(
             DocumentDetailsInteractor.self
+          ),
+          config: config
+        )
+      case .issuanceVPDocumentDetails(let config):
+        VPHistoryDetailsView(
+          with: self,
+          and: DIGraph.resolver.force(
+            VPHistoryDetailsInteractor.self
           ),
           config: config
         )

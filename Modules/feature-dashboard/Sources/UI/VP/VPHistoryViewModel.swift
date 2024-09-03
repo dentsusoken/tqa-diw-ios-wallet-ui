@@ -19,18 +19,23 @@ import logic_business
 import logic_core
 import feature_common
 
-struct DashboardState: ViewState {
+struct VPHistoryState: ViewState {
   let isLoading: Bool
-  let documents: [DocumentUIModel]
-  let bearer: BearerUIModel
+  let documents: [VPHistoryUIModel]
+  let bearer: BearerVPUIModel
   let phase: ScenePhase
   let pendingBleModalAction: Bool
   let appVersion: String
+  let config: IssuanceFlowUiConfig
+    
+    var isFlowCancellable: Bool {
+      return config.isExtraDocumentFlow
+    }
 }
 
-final class DashboardViewModel<Router: RouterHost>: BaseViewModel<Router, DashboardState> {
+final class VPHistoryViewModel<Router: RouterHost>: BaseViewModel<Router, VPHistoryState> {
 
-  private let interactor: DashboardInteractor
+  private let interactor: VPHistoryInteractor
   private let deepLinkController: DeepLinkController
   private let walletKitController: WalletKitController
 
@@ -43,10 +48,14 @@ final class DashboardViewModel<Router: RouterHost>: BaseViewModel<Router, Dashbo
 
   init(
     router: Router,
-    interactor: DashboardInteractor,
+    interactor: VPHistoryInteractor,
     deepLinkController: DeepLinkController,
-    walletKit: WalletKitController
+    walletKit: WalletKitController,
+    config: any UIConfigType
   ) {
+      guard let config = config as? IssuanceFlowUiConfig else {
+        fatalError("AddDocumentViewModel:: Invalid configuraton")
+      }
     self.interactor = interactor
     self.deepLinkController = deepLinkController
     self.walletKitController = walletKit
@@ -54,23 +63,24 @@ final class DashboardViewModel<Router: RouterHost>: BaseViewModel<Router, Dashbo
       router: router,
       initialState: .init(
         isLoading: true,
-        documents: DocumentUIModel.mocks(),
-        bearer: BearerUIModel.mock(),
+        documents: VPHistoryUIModel.mocks(),
+        bearer: BearerVPUIModel.mock(),
         phase: .active,
         pendingBleModalAction: false,
-        appVersion: interactor.getAppVersion()
+        appVersion: interactor.getAppVersion(),
+        config:config
+        
       )
     )
   }
 
   func fetch() async {
-    switch await interactor.fetchDashboard() {
+    switch await interactor.fetchVP() {
     case .success(let bearer, let documents):
       setNewState(
         documents: documents,
         bearer: bearer
       )
-      handleDeepLink()
     case .failure:
       setNewState(
         documents: []
@@ -90,29 +100,10 @@ final class DashboardViewModel<Router: RouterHost>: BaseViewModel<Router, Dashbo
 
   func onDocumentDetails(documentId: String) {
     router.push(
-      with: .issuanceDocumentDetails(
+      with: .issuanceVPDocumentDetails(
         config: IssuanceDetailUiConfig(flow: .extraDocument(documentId))
       )
     )
-  }
-
-  func onShare() {
-    Task { [weak self] in
-      guard let self else { return }
-
-      switch await self.interactor.getBleAvailability() {
-      case .available:
-        self.router.push(
-          with: .proximityConnection(
-            presentationCoordinator: self.walletKitController.startProximityPresentation()
-          )
-        )
-      case .noPermission, .disabled:
-        self.toggleBleModal()
-      default:
-        break
-      }
-    }
   }
 
   func toggleBleModal() {
@@ -128,38 +119,18 @@ final class DashboardViewModel<Router: RouterHost>: BaseViewModel<Router, Dashbo
     interactor.openBleSettings()
   }
 
-  func onAdd() {
-    router.push(with: .issuanceAddDocument(config: IssuanceFlowUiConfig(flow: .extraDocument)))
-  }
-
-  func onVpHistory() {
-    router.push(with: .vphistory(config: IssuanceFlowUiConfig(flow: .extraDocument)))
-  }
-
   func onMore() {
     isMoreModalShowing = !isMoreModalShowing
   }
 
-  func onUpdatePin() {
-    isMoreModalShowing = false
-    router.push(with: .quickPin(config: QuickPinUiConfig(flow: .update)))
-  }
-
-  func onShowScanner() {
-    isMoreModalShowing = false
-    router.push(with: .qrScanner(config: ScannerUiConfig(flow: .presentation)))
-  }
-
-  private func handleDeepLink() {
-    if let deepLink = deepLinkController.getPendingDeepLinkAction() {
-      deepLinkController.handleDeepLinkAction(routerHost: router, deepLinkExecutable: deepLink)
+    func pop() {
+      router.pop(animated: true)
     }
-  }
 
   private func setNewState(
     isLoading: Bool = false,
-    documents: [DocumentUIModel]? = nil,
-    bearer: BearerUIModel? = nil,
+    documents: [VPHistoryUIModel]? = nil,
+    bearer: BearerVPUIModel? = nil,
     phase: ScenePhase? = nil,
     pendingBleModalAction: Bool? = nil
   ) {
@@ -170,7 +141,8 @@ final class DashboardViewModel<Router: RouterHost>: BaseViewModel<Router, Dashbo
           bearer: bearer ?? previousSate.bearer,
           phase: phase ?? previousSate.phase,
           pendingBleModalAction: pendingBleModalAction ?? previousSate.pendingBleModalAction,
-          appVersion: previousSate.appVersion
+          appVersion: previousSate.appVersion,
+          config: previousSate.config
         )
     }
   }

@@ -1775,6 +1775,17 @@
         }
       }
     },
+    "vc_Type" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VC種別"
+          }
+        }
+      }
+    },
     "vehicle_category_code" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1782,6 +1793,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vehicle category code"
+          }
+        }
+      }
+    },
+    "vp_history" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VP履歴"
+          }
+        }
+      }
+    },
+    "vp_history_tap" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VP履歴"
           }
         }
       }
