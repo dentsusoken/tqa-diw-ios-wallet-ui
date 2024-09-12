@@ -39,7 +39,7 @@ public protocol WalletKitController {
   func deleteDocument(with id: String) async throws
   func loadDocuments() async throws
   func issueDocument(docType: String, format: DataFormat) async throws -> WalletStorage.Document
-  func loadVPDocuments() async throws -> [PresentationLog]
+  func loadVPDocuments() async throws -> [PresentationLog]?
   func resolveOfferUrlDocTypes(uriOffer: String) async throws -> [OfferedDocModel]
   func issueDocumentsByOfferUrl(
     offerUri: String,
@@ -107,9 +107,9 @@ final class WalletKitControllerImpl: WalletKitController {
     _ = try await wallet.loadDocuments()
   }
 
-  public func loadVPDocuments() async throws -> [PresentationLog] {
+  public func loadVPDocuments() async throws -> [PresentationLog]? {
     let documents = try await wallet.loadVPDocuments()
-    return documents!
+    return documents
   }
 
   public func startProximityPresentation() -> PresentationSessionCoordinator {

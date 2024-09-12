@@ -85,10 +85,10 @@ final class VPHistoryInteractorImpl: VPHistoryInteractor {
   private func fetchVPDocuments() async -> [VPHistoryUIModel]? {
     do {
       let documents = try await walletController.loadVPDocuments()
-      guard !documents.isEmpty else {
+      guard ((documents?.isEmpty) != nil) else {
         return nil
       }
-      let doc =  documents.transformToVPDocumentUi()
+      let doc =  documents?.transformToVPDocumentUi()
       return doc
     } catch {
       print("Error loading VP documents: \(error)")
